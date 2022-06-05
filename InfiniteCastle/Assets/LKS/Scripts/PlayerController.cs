@@ -2,16 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public bool isAlive = true;
     public float jumpSpeed = 3;
 
-    [Header("이동 키매핑")] 
-    public KeyCode leftJump = KeyCode.A;
-    public KeyCode rightJump = KeyCode.D;
-    
     private Rigidbody2D rigidbody;
 
     private void Awake()
@@ -19,28 +16,40 @@ public class PlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    public void OnJumpInput(InputAction.CallbackContext callbackContext)
     {
-        if (!isAlive) return;
+        if (isAlive && callbackContext.performed)
+        {
+            StopAllCoroutines();
 
-        if (Input.GetKeyDown(leftJump))
-        {
-            //LeftJump();
-        }
-        else if (Input.GetKeyDown(rightJump))
-        {
-            //RightJump();
+            Vector2 inputDir = callbackContext.ReadValue<Vector2>();
+            StartCoroutine(OnJump(inputDir));
         }
     }
 
-    public void LeftJump()
+    private IEnumerator OnJump(Vector2 inputDir) //나중에 델리게이트로 변경
     {
-        Debug.Log("왼쪽점프");
+        Debug.Log("점프");
+        transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
+        Vector2 oldPos = transform.position;
+        Vector2 newPos = new Vector2(transform.position.x + inputDir.x, transform.position.y);
+
+        while (oldPos != newPos)
+        {
+            transform.position = Vector2.Lerp(oldPos, newPos, 1);
+            yield return null;
+        }
+
+        CheckStair();
     }
 
-    public void RightJump()
+    private void CheckStair()
     {
-        Debug.Log("오른쪽점프");
+        RaycastHit info;
+
+        Physics.Raycast(transform.position, Vector2.down, out info, 0.3f);
+        if (!info.collider.CompareTag("Stair"))
+            OnDie();
     }
 
     public void OnDie()
