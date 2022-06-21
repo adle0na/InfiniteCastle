@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StairGenerator : MonoBehaviour
@@ -8,12 +9,14 @@ public class StairGenerator : MonoBehaviour
     public GameObject stairPrefab;
     
     //private GameObject[] stairs;
-    private Queue<GameObject> stairs;
+    public Queue<GameObject> stairs;
     private Vector3 lastPosition;
+    private GameManager gameManager;
 
     private void Awake()
     {
         stairs = new Queue<GameObject>(initStairCount);
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         
         for(int i = 0; i < initStairCount; i++)
         {
@@ -27,6 +30,7 @@ public class StairGenerator : MonoBehaviour
     private void Start()
     {
         Initialize();
+        gameManager.SetPlayer(stairs.ElementAt(0).gameObject.transform.position);
     }
 
     private void Initialize()

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rigidbody;
     private Killzone killZone;
+    private Collider2D collider;
 
     public bool IsAlive
     {
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        collider = GetComponent<Collider2D>();
         killZone = GameObject.FindObjectOfType<Killzone>();
     }
 
@@ -80,8 +82,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnDie()
     {
+        Time.timeScale = 0;
         Debug.Log("플레이어 사망");
         StopAllCoroutines();
-        Time.timeScale = 0;
+        collider.isTrigger = true;
     }
 }
