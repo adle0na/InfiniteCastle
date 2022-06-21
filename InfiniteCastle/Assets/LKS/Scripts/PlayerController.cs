@@ -6,19 +6,32 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool isAlive = true;
+    private bool isAlive = true;
     public float jumpSpeed = 3;
 
     private Rigidbody2D rigidbody;
+    private Killzone killZone;
+
+    public bool IsAlive
+    {
+        get => isAlive;
+        set
+        {
+            isAlive = value;
+            if(!isAlive)
+                OnDie();
+        } 
+    }
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        killZone = GameObject.FindObjectOfType<Killzone>();
     }
 
     public void OnJumpInput(InputAction.CallbackContext callbackContext)
     {
-        if (isAlive && callbackContext.performed)
+        if (IsAlive && callbackContext.performed)
         {
             StopAllCoroutines();
 
@@ -33,28 +46,42 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
         Vector2 oldPos = transform.position;
         Vector2 newPos = new Vector2(transform.position.x + inputDir.x, transform.position.y);
+        float distance = Vector2.Distance(oldPos, newPos);
 
-        while (oldPos != newPos)
+        while (distance > 0.1f)
         {
             transform.position = Vector2.Lerp(oldPos, newPos, 1);
+            distance = Vector2.Distance(transform.position, newPos);
             yield return null;
         }
 
+        killZone.MoveUp();
         CheckStair();
     }
 
     private void CheckStair()
     {
-        RaycastHit info;
-
-        Physics.Raycast(transform.position, Vector2.down, out info, 0.3f);
-        if (!info.collider.CompareTag("Stair"))
+        Debug.Log("바닥체크중");
+        Debug.DrawRay(transform.position, Vector3.down, new Color(1, 0, 0));
+        
+        RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("KillZone"));
+        Debug.Log(rayhit.collider.gameObject.name);
+        // if (!info.collider.CompareTag("Stair"))
+        // {
+        //     StopAllCoroutines();
+        //     OnDie();
+        // }
+        if (rayhit.collider.CompareTag("KillZone"))
+        {
+            StopAllCoroutines();
             OnDie();
+        }
     }
 
     public void OnDie()
     {
-        isAlive = false;
+        Debug.Log("플레이어 사망");
+        StopAllCoroutines();
         Time.timeScale = 0;
     }
 }
