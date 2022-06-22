@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down, new Color(1, 0, 0));
         
         RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("KillZone"));
-        Debug.Log(rayhit.collider.gameObject.name);
+        // Debug.Log(rayhit.collider.gameObject.name);
         // if (!info.collider.CompareTag("Stair"))
         // {
         //     StopAllCoroutines();

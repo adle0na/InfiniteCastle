@@ -7,14 +7,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private PlayerController player;
-    private StairGenerator stairGenerator;
+    private StairGenerator stairManager;
 
     public PlayerController Player => player;
+    public StairGenerator StairManager => stairManager;
 
     private void Awake()
     {
         player = GameObject.FindObjectOfType<PlayerController>();
-        stairGenerator = GameObject.FindObjectOfType<StairGenerator>();
+        stairManager = GameObject.FindObjectOfType<StairGenerator>();
     }
 
     public void SetPlayer(Vector3 stairPos)

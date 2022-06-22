@@ -6,10 +6,12 @@ using UnityEngine;
 public class Killzone : MonoBehaviour
 {
     private PlayerController player;
+    private GameManager gameManager;
 
     private void Awake()
     {
         player = GameObject.FindObjectOfType<PlayerController>();
+        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
     public void MoveUp()
@@ -17,15 +19,20 @@ public class Killzone : MonoBehaviour
         transform.Translate(new Vector3(0, 0.5f));
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (col.gameObject.CompareTag($"Player"))
+        if (other.CompareTag($"Player"))
         {
             player.IsAlive = false;
         }
-        else if (col.gameObject.CompareTag($"Stair"))
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag($"Stair"))
         {
-            Destroy(col.gameObject);
+            Debug.Log("계단 회수");
+            gameManager.StairManager.RemoveStairs(other.gameObject);
         }
     }
 }

@@ -66,4 +66,29 @@ public class StairGenerator : MonoBehaviour
         
         lastPosition = generatePos;
     }
+
+    public void RemoveStairs(GameObject obj)
+    {
+        obj.SetActive(false);
+        obj.transform.position = transform.position;
+        ResetStairs(obj, lastPosition);
+    }
+
+    private void ResetStairs(GameObject stair, Vector3 newPos)
+    {
+        Debug.Log("계단 재배치 계산중");
+        int nextX = Random.Range(-1, 1);
+        if (nextX == 0)
+            nextX = 1;
+        if ((newPos.x + nextX) == -3 || (newPos.x + nextX) == 3)
+            nextX *= -1;
+
+        newPos.x += nextX;
+        newPos.y += 0.5f;
+        lastPosition = newPos;
+        
+        stair.transform.position = newPos;
+        stair.SetActive(true);
+        Debug.Log("계단 재배치 완료");
+    }
 }
