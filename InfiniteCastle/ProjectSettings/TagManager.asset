@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Stair
   - KillZone
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Stair
   - KillZone
-  - 
+  - Monster
   - 
   - 
   - 

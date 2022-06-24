@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/LKS/Scenes/LKS_TestStair.unity
+    guid: 1e4e160c62ea5f5458e7120de245a03f
+  - enabled: 1
+    path: Assets/LKS/Scenes/LKS_TestBattle.unity
+    guid: 6150f35254b576c4eae5ede8010540b7
   m_configObjects: {}

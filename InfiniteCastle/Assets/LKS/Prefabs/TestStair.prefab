@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1059444234919761638}
   - component: {fileID: 1059444234919761637}
   - component: {fileID: 1277680437}
+  - component: {fileID: 4301329747763544057}
   m_Layer: 6
   m_Name: TestStair
   m_TagString: Stair
@@ -28,7 +29,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.3, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2761892753140231332}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -109,3 +111,65 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4301329747763544057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059444234919761636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4911e3f98a2144345b54bbd2669673f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisFloor: 0
+  monsterGenerateInterval: 6
+  bossGenerateInterval: 10000
+--- !u!1 &7891262299927450895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2761892753140231332}
+  - component: {fileID: 2394336167034879576}
+  m_Layer: 6
+  m_Name: MonsterGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2761892753140231332
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891262299927450895}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1059444234919761638}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2394336167034879576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891262299927450895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f0ec59428fd284ca02ebea4542bf3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsters:
+  - {fileID: 1617777507153392071, guid: b178bc7fe7bbd0241926b1aa3468ecbb, type: 3}
+  - {fileID: 2232137973156690131, guid: 66e5c13fc99f21b4ebe6d582ad48a455, type: 3}
+  - {fileID: 5915624088990010477, guid: 1017d7b181007c94b95e31ad6cff9047, type: 3}

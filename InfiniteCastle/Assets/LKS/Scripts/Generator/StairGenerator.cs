@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class StairGenerator : MonoBehaviour
 {
-    public int initStairCount = 100;
+    public int initStairCount;
     public GameObject stairPrefab;
-    
-    //private GameObject[] stairs;
+
     public Queue<GameObject> stairs;
     private Vector3 lastPosition;
     private GameManager gameManager;
+    private int stairCount;
 
     private void Awake()
     {
@@ -21,10 +21,11 @@ public class StairGenerator : MonoBehaviour
         for(int i = 0; i < initStairCount; i++)
         {
             GameObject obj = Instantiate(stairPrefab, transform);
+            Stair stairObj = obj.GetComponent<Stair>();
+            stairObj.ThisFloor = i + 1;
+            stairCount = stairObj.ThisFloor;
             stairs.Enqueue(obj);
         }
-
-        //stairs = GameObject.FindGameObjectsWithTag("Stair");
     }
 
     private void Start()
@@ -77,18 +78,23 @@ public class StairGenerator : MonoBehaviour
     private void ResetStairs(GameObject stair, Vector3 newPos)
     {
         Debug.Log("계단 재배치 계산중");
+        stair.transform.position = newPos;
+        
         int nextX = Random.Range(-1, 1);
         if (nextX == 0)
             nextX = 1;
         if ((newPos.x + nextX) == -3 || (newPos.x + nextX) == 3)
             nextX *= -1;
-
+        
         newPos.x += nextX;
         newPos.y += 0.5f;
         lastPosition = newPos;
         
-        stair.transform.position = newPos;
         stair.SetActive(true);
+        
+        Stair stairObj = stair.GetComponent<Stair>();
+        stairCount++;
+        stairObj.ThisFloor = stairCount;
         Debug.Log("계단 재배치 완료");
     }
 }
