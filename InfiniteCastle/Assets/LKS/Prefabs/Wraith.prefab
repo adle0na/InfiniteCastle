@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 370146052781423666}
   - component: {fileID: 3442779574883923971}
   - component: {fileID: 9078628188774599325}
+  - component: {fileID: 5436109716130148853}
   m_Layer: 8
   m_Name: Wraith
   m_TagString: Monster
@@ -121,3 +122,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5436109716130148853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5915624088990010477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0884ae4062820d449c73e096a2a29d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

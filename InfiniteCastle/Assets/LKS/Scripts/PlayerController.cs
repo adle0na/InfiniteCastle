@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, IAttackable
 {
     private bool isAlive = true;
-    private Vector2 moveDir = Vector2.zero;
+    private Vector2 oldPos;
+    private int attack;
     public float jumpSpeed = 3;
 
     private Rigidbody2D rigidbody;
@@ -42,6 +43,12 @@ public class PlayerController : MonoBehaviour, IAttackable
         } 
     }
 
+    public int Attack
+    {
+        get => attack;
+        set => attack = value;
+    }
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -53,6 +60,17 @@ public class PlayerController : MonoBehaviour, IAttackable
     private void Start()
     {
         gameManager.CurrentFloor = 0;
+        Attack = 1;
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Monster"))
+        {
+            IAttackable target = col.gameObject.GetComponent<IAttackable>();
+            target.TakeDamage(Attack);
+            BounceOff();
+        }
     }
 
     public void OnJumpInput(InputAction.CallbackContext callbackContext)
@@ -62,40 +80,15 @@ public class PlayerController : MonoBehaviour, IAttackable
             StopAllCoroutines();
 
             Vector2 inputDir = callbackContext.ReadValue<Vector2>();
-            //moveDir = callbackContext.ReadValue<Vector2>();
             StartCoroutine(OnJump(inputDir));
-            //CheckMonster(moveDir);
         }
     }
 
-    private bool CheckMonster(Vector2 inputDir)
-    {
-        bool result = false;
-        Debug.Log("몬스터 존재 유무 확인중");
-        Debug.DrawRay(transform.position, (Vector2.up + inputDir), Color.cyan);
-
-        RaycastHit2D rayHit =
-            Physics2D.Raycast(transform.position, (Vector2.up + inputDir), 1.5f, 8);
-
-        if (rayHit == null)
-        {
-            StartCoroutine(OnJump(moveDir));
-            return result;
-        }
-        else
-        {
-            Debug.Log(rayHit.collider.gameObject.name);
-            result = true;
-        }
-        
-        return result;
-    }
-
-    private IEnumerator OnJump(Vector2 inputDir) //나중에 델리게이트로 변경
+    private IEnumerator OnJump(Vector2 inputDir)
     {
         Debug.Log("점프");
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
-        Vector2 oldPos = transform.position;
+        oldPos = transform.position;
         Vector2 newPos = new Vector2(transform.position.x + inputDir.x, transform.position.y);
         float distance = Vector2.Distance(oldPos, newPos);
 
@@ -106,8 +99,34 @@ public class PlayerController : MonoBehaviour, IAttackable
             yield return null;
         }
 
-        killZone.MoveUp();
-        CheckStair();
+        DoNext();
+    }
+
+    private void DoNext()
+    {
+        if (!CheckMonster())
+        {
+            Debug.Log("몬스터 없음");
+            killZone.MoveUp();
+            CheckStair();
+        }
+        else
+        {
+            Debug.Log("몬스터 있음");
+        }
+    }
+
+    private bool CheckMonster()
+    {
+        int nextFloor = gameManager.CurrentFloor;
+        bool result = gameManager.SetStair(++nextFloor);
+
+        return result;
+    }
+
+    private void BounceOff()
+    {
+        transform.position = oldPos;
     }
 
     private void CheckStair()
@@ -126,26 +145,6 @@ public class PlayerController : MonoBehaviour, IAttackable
         gameManager.CurrentFloor++;
     }
 
-    private void CheckMonster1()
-    {
-        //이부분은 정상 작동 확인 후 지울 것
-        Debug.Log("몬스터 존재 유무 확인중");
-        Debug.DrawRay(transform.position, new Vector3(1,1,1), Color.cyan);
-        Debug.DrawRay(transform.position, new Vector3(-1,1,1), Color.cyan);
-
-        RaycastHit2D leftRayHit =
-            Physics2D.Raycast(transform.position, new Vector2(-1, 1), 1.5f, 8);
-        RaycastHit2D rightRayHit =
-            Physics2D.Raycast(transform.position, new Vector2(1, 1), 1.5f, 8);
-
-        if (leftRayHit != null)
-            if (leftRayHit.collider.CompareTag("Monster"))
-                Debug.Log(leftRayHit.collider.gameObject.name);
-        else if (rightRayHit != null)
-            if (rightRayHit.collider.CompareTag("Monster"))
-                Debug.Log(rightRayHit.collider.gameObject.name);
-    }
-    
     public void TakeDamage(int damage)
     {
         Health -= damage;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,21 +27,28 @@ public class Monster : MonoBehaviour, IAttackable
         {
             health = Mathf.Clamp(value, 0, MaxHealth);
             if (health == 0)
-                IsAlive = false;
+                OnDie();
         }
     }
-    public int MaxHealth
+    public int MaxHealth => maxHealth;
+
+    private void Awake()
     {
-        get => maxHealth;
+        maxHealth = 5;
+        Health = maxHealth;
     }
-    
+
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        Debug.Log($"{gameObject.name}의 남은 체력 : {Health}");
     }
-
+    
     public void OnDie()
     {
-        
+        MonsterGenerator generator = GetComponentInParent<MonsterGenerator>();
+        generator.IsMonsterSpawned = false;
+        Debug.Log($"{gameObject.name}을 죽였다!");
+        Destroy(gameObject);
     }
 }

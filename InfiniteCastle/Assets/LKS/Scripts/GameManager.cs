@@ -8,17 +8,14 @@ public class GameManager : MonoBehaviour
 {
     private PlayerController player;
     private StairGenerator stairManager;
+    private Stair stair;
     private Stair[] stairs;
     [SerializeField] private int currentFloor;
 
     public PlayerController Player => player;
     public StairGenerator StairManager => stairManager;
 
-    public Stair[] Stairs
-    {
-        get => stairs;
-        set => stairs = value;
-    }
+    public Stair TheStair => stair;
 
     public int CurrentFloor
     {
@@ -34,6 +31,10 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindObjectOfType<PlayerController>();
         stairManager = GameObject.FindObjectOfType<StairGenerator>();
+    }
+    
+    private void Start()
+    {
         stairs = GameObject.FindObjectsOfType<Stair>();
     }
 
@@ -48,5 +49,21 @@ public class GameManager : MonoBehaviour
         {
             Player.transform.position = stairPos + new Vector3(1, 0, 0);
         }
+    }
+
+    public bool SetStair(int thisFloor)
+    {
+        bool result = false;
+        
+        for (int i = 0; i < stairs.Length; i++)
+        {
+            if (stairs[i].ThisFloor == thisFloor)
+            {
+                stair = stairs[i];
+                result = stairs[i].MonGenerator.IsMonsterSpawned;
+            }
+        }
+        
+        return result;
     }
 }

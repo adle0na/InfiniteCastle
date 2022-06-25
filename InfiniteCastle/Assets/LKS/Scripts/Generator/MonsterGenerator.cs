@@ -7,7 +7,11 @@ public class MonsterGenerator : MonoBehaviour
     private bool isMonsterSpawned = false;
     
     public GameObject[] monsters;
-    public bool IsMonsterSpawned => isMonsterSpawned;
+    public bool IsMonsterSpawned
+    {
+        get => isMonsterSpawned;
+        set => isMonsterSpawned = value;
+    }
 
     public void SpawnMonster(int index)
     {
