@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, IAttackable
 {
     private bool isAlive = true;
+    private bool isGrounded = false;
     private Vector2 oldPos;
     private int attack;
     public float jumpSpeed = 3;
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     private int health;
     private int maxHealth;
-    
+
     public int Health
     {
         get => health;
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour, IAttackable
             health = Mathf.Clamp(value, 0, maxHealth);
             if (health == 0)
                 IsAlive = false;
-        } 
+        }
     }
 
     public int MaxHealth => maxHealth;
@@ -38,9 +39,9 @@ public class PlayerController : MonoBehaviour, IAttackable
         set
         {
             isAlive = value;
-            if(!isAlive)
+            if (!isAlive)
                 OnDie();
-        } 
+        }
     }
 
     public int Attack
@@ -63,6 +64,16 @@ public class PlayerController : MonoBehaviour, IAttackable
         Attack = 1;
     }
 
+    private void Update()
+    {
+        RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, LayerMask.GetMask("Stair"));
+        if (rayhit.collider == null) return;
+        if (rayhit.collider.CompareTag("Stair") || rayhit.collider.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Monster"))
@@ -75,6 +86,7 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     public void OnJumpInput(InputAction.CallbackContext callbackContext)
     {
+        if (!isGrounded) return;
         if (IsAlive && callbackContext.performed)
         {
             StopAllCoroutines();
@@ -87,6 +99,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     private IEnumerator OnJump(Vector2 inputDir)
     {
         Debug.Log("점프");
+        isGrounded = false;
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
         oldPos = transform.position;
         Vector2 newPos = new Vector2(transform.position.x + inputDir.x, transform.position.y);
@@ -133,7 +146,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         Debug.Log("바닥체크중");
         Debug.DrawRay(transform.position, Vector3.down, new Color(1, 0, 0));
-        
+
         RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("KillZone"));
         if (rayhit.collider.CompareTag("KillZone"))
         {

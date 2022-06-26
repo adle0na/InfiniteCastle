@@ -12,6 +12,8 @@ public class Stair : MonoBehaviour
     private int monsterGenerateInterval = 6;
     [SerializeField] private int bossGenerateInterval = 10000;
 
+    private int monsterIndex;
+
     private MonsterGenerator monsterGenerator;
 
     public int ThisFloor
@@ -24,6 +26,15 @@ public class Stair : MonoBehaviour
         } 
     }
 
+    public int MonsterIndex
+    {
+        get => monsterIndex;
+        set
+        {
+            monsterIndex = SetGenerateMonsterIndex(value);
+        }
+    }
+
     public MonsterGenerator MonGenerator => monsterGenerator;
 
     private void Awake()
@@ -31,11 +42,17 @@ public class Stair : MonoBehaviour
         monsterGenerator = GetComponentInChildren<MonsterGenerator>();
     }
 
+    private int SetGenerateMonsterIndex(int newIndex)
+    {
+        int result = (newIndex % MonGenerator.monsters.Length);
+        return result;
+    }
+
     private void CheckGenerate()
     {
         if (thisFloor % monsterGenerateInterval == 0)
         {
-            MonGenerator.SpawnMonster(0);
+            MonGenerator.SpawnMonster(MonsterIndex);
             return;
         }
     }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private Stair stair;
     private Stair[] stairs;
     [SerializeField] private int currentFloor;
+    private int setNewMonster = 50;
 
     public PlayerController Player => player;
     public StairGenerator StairManager => stairManager;
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
         {
             currentFloor = value;
             Debug.Log(currentFloor);
+            if ((currentFloor % setNewMonster) == 0)
+                SetIndex();
         }
     }
 
@@ -65,5 +68,17 @@ public class GameManager : MonoBehaviour
         }
         
         return result;
+    }
+
+    private void SetIndex()
+    {
+        if (CurrentFloor == 0) return;
+        
+        foreach (var stair in stairs)
+        {
+            stair.MonsterIndex++;
+        }
+        
+        Debug.Log("몬스터 변경");
     }
 }
