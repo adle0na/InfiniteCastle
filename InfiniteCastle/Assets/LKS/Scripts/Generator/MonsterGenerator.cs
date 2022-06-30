@@ -16,6 +16,8 @@ public class MonsterGenerator : MonoBehaviour
     public void SpawnMonster(int index)
     {
         GameObject obj = Instantiate(monsters[index], transform.position, Quaternion.identity);
+        Monster monster = obj.GetComponent<Monster>();
+        monster.Attack = 2 * (index + 1);
         obj.transform.parent = this.transform;
         isMonsterSpawned = true;
     }

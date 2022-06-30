@@ -10,13 +10,17 @@ public class GameManager : MonoBehaviour
     private StairGenerator stairManager;
     private Stair stair;
     private Stair[] stairs;
+    private ItemFactory factory;
+
     [SerializeField] private int currentFloor;
-    private int setNewMonster = 50;
+    [SerializeField] private int setNewMonster = 50;
+    [SerializeField] private int healthRestore = 10;
+    [SerializeField] private int hpRecovoery = 10;
 
     public PlayerController Player => player;
     public StairGenerator StairManager => stairManager;
-
     public Stair TheStair => stair;
+    public ItemFactory Factory => factory;
 
     public int CurrentFloor
     {
@@ -25,6 +29,8 @@ public class GameManager : MonoBehaviour
         {
             currentFloor = value;
             Debug.Log(currentFloor);
+            if((currentFloor % healthRestore)  == 0)
+                RestoreHealth();
             if ((currentFloor % setNewMonster) == 0)
                 SetIndex();
         }
@@ -34,13 +40,14 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindObjectOfType<PlayerController>();
         stairManager = GameObject.FindObjectOfType<StairGenerator>();
+        factory = GameObject.FindObjectOfType<ItemFactory>();
     }
     
     private void Start()
     {
         stairs = GameObject.FindObjectsOfType<Stair>();
     }
-
+    
     public void SetPlayer(Vector3 stairPos)
     {
         float maxX = 2;
@@ -80,5 +87,23 @@ public class GameManager : MonoBehaviour
         }
         
         Debug.Log("몬스터 변경");
+    }
+
+    private void RestoreHealth()
+    {
+        if(currentFloor == 0)  return;
+        player.Health += hpRecovoery;
+    }
+
+    public void HealthUp()
+    {
+        hpRecovoery += 5;
+        Debug.Log($"hpRecovoery : {hpRecovoery}");
+    }
+
+    public void AttackUp()
+    {
+        player.Attack++;
+        Debug.Log($"Player Attack : {player.Attack}");
     }
 }

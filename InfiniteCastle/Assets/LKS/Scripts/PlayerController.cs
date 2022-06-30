@@ -10,7 +10,11 @@ public class PlayerController : MonoBehaviour, IAttackable
     private bool isGrounded = false;
     private Vector2 oldPos;
     private int attack;
+    private int bombCount;
+    private int maxBombCount;
+    
     public float jumpSpeed = 3;
+    public int bombAttack = 50;
 
     private Rigidbody2D rigidbody;
     private Killzone killZone;
@@ -30,7 +34,6 @@ public class PlayerController : MonoBehaviour, IAttackable
                 IsAlive = false;
         }
     }
-
     public int MaxHealth => maxHealth;
 
     public bool IsAlive
@@ -50,6 +53,21 @@ public class PlayerController : MonoBehaviour, IAttackable
         set => attack = value;
     }
 
+    public int BombCount
+    {
+        get => bombCount;
+        set
+        {
+            bombCount = Mathf.Clamp(value, 0, maxHealth);
+            Debug.Log($"남은 폭탄 갯수 : {BombCount}");
+        }
+    }
+
+    public int MaxBombCount
+    {
+        get => maxBombCount;
+    }
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -62,6 +80,9 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         gameManager.CurrentFloor = 0;
         Attack = 1;
+        maxHealth = 100;
+        Health = MaxHealth;
+        BombCount = 1;
     }
 
     private void Update()
@@ -93,6 +114,20 @@ public class PlayerController : MonoBehaviour, IAttackable
 
             Vector2 inputDir = callbackContext.ReadValue<Vector2>();
             StartCoroutine(OnJump(inputDir));
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext callbackContext)
+    {
+        if (BombCount == 0) return;
+        if (IsAlive && callbackContext.started)
+        {
+            Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
+            foreach (var monster in monsters)
+            {
+                monster.TakeDamage(bombAttack);
+            }
+            BombCount--;
         }
     }
 
@@ -161,6 +196,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        Debug.Log($"플레이어는 {damage}의 데미지를 입었다. \n 남은 체력 : {Health}");
         // 피격 이펙트
     }
 
