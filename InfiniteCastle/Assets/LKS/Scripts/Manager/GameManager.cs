@@ -89,6 +89,18 @@ public class GameManager : MonoBehaviour
         Debug.Log("몬스터 변경");
     }
 
+    private void Test_SetItems()
+    {
+        foreach (var theStair in stairs)
+        {
+            if (theStair.ThisFloor == 1 || theStair.ThisFloor == 2)
+            {
+                if(!theStair.ItemGen.IsItemSet)
+                    theStair.ItemGen.SetItem();
+            }
+        }
+    }
+
     private void RestoreHealth()
     {
         if(currentFloor == 0)  return;

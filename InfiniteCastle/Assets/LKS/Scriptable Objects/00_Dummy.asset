@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a696fbdc9bbcbf845a923875aa1eef56, type: 3}
-  m_Name: 01_AttackUp
+  m_Name: 00_Dummy
   m_EditorClassIdentifier: 
-  itemID: 1
-  itemName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  itemImage: {fileID: 21300000, guid: c0c349d1f5e682f48bb857b923440b4e, type: 3}
-  itemDescription: "\uACF5\uACA9\uB825\uC774 1 \uC99D\uAC00\uD55C\uB2E4."
-  itemPrefab: {fileID: 2503741328708733206, guid: de7e3685a7b5f6b4096fe7b0930fcb8c, type: 3}
-  isPassive: 1
+  itemID: 0
+  itemName: Dummy Data
+  itemImage: {fileID: 0}
+  itemDescription: Demmy Data
+  itemPrefab: {fileID: 0}
+  isPassive: 0

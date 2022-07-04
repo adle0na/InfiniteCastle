@@ -6,15 +6,21 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public ItemEnum itemEnum = ItemEnum.Dummy;
+    public ItemData itemData;
     private GameManager gameManager;
-    
+    private ItemGenerator itemGenerator;
+
     private void OnEnable()
     {
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        itemGenerator = GetComponentInParent<ItemGenerator>();
+        itemGenerator.IsItemSet = false;
+        
         if (col.CompareTag("Player"))
         {
             switch (itemEnum)

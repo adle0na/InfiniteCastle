@@ -133,7 +133,6 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     private IEnumerator OnJump(Vector2 inputDir)
     {
-        Debug.Log("점프");
         isGrounded = false;
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
         oldPos = transform.position;
@@ -179,7 +178,6 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     private void CheckStair()
     {
-        Debug.Log("바닥체크중");
         Debug.DrawRay(transform.position, Vector3.down, new Color(1, 0, 0));
 
         RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("KillZone"));
