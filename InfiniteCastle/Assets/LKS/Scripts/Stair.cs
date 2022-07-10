@@ -59,9 +59,15 @@ public class Stair : MonoBehaviour
 
     private void CheckMonGenerate()
     {
+        if (thisFloor % bossGenerateInterval == 0)
+        {
+            BossGen.SetBoss();
+            return;
+        }
+        
         if (thisFloor % itemGenInterval == 0)
         {
-            itemGenerator.SetItem();
+            ItemGen.SetItem();
             return;
         }
         

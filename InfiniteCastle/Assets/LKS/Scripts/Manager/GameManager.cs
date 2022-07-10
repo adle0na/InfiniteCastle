@@ -48,7 +48,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         stairs = GameObject.FindObjectsOfType<Stair>();
-        Test_Boss();
+        //Test_SetItems();
+        //Test_Boss();
     }
     
     public void SetPlayer(Vector3 stairPos)
