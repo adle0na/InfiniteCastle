@@ -19,6 +19,7 @@ public class Stair : MonoBehaviour
 
     private MonsterGenerator monsterGenerator;
     private ItemGenerator itemGenerator;
+    private BossGenerator bossGenerator;
 
     public int ThisFloor
     {
@@ -41,11 +42,13 @@ public class Stair : MonoBehaviour
 
     public MonsterGenerator MonGenerator => monsterGenerator;
     public ItemGenerator ItemGen => itemGenerator;
+    public BossGenerator BossGen => bossGenerator;
 
     private void Awake()
     {
         monsterGenerator = GetComponentInChildren<MonsterGenerator>();
         itemGenerator = GetComponentInChildren<ItemGenerator>();
+        bossGenerator = GetComponentInChildren<BossGenerator>();
     }
 
     private int SetGenerateMonsterIndex(int newIndex)

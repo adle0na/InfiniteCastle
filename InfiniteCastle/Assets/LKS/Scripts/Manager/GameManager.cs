@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private Stair stair;
     private Stair[] stairs;
     private ItemFactory factory;
+    private Boss bossMonster;
 
     [SerializeField] private int currentFloor;
     [SerializeField] private int setNewMonster = 50;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     public StairGenerator StairManager => stairManager;
     public Stair TheStair => stair;
     public ItemFactory Factory => factory;
+    public Boss BossMonster => bossMonster;
 
     public int CurrentFloor
     {
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         stairs = GameObject.FindObjectsOfType<Stair>();
+        Test_Boss();
     }
     
     public void SetPlayer(Vector3 stairPos)
@@ -61,7 +64,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool SetStair(int thisFloor)
+    public bool CheckStair(int thisFloor)
     {
         bool result = false;
         
@@ -74,6 +77,25 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        return result;
+    }
+
+    public bool CheckBoss(int thisFloor)
+    {
+        bool result = false;
+
+        //if (TryGetComponent(out bossMonster))
+        if (GameObject.FindObjectOfType<Boss>() != null)
+        {
+            bossMonster = GameObject.FindObjectOfType<Boss>();
+            Debug.Log("보스 소환중");
+            stair = bossMonster.GetComponentInParent<Stair>();
+            if (stair.ThisFloor == thisFloor)
+            {
+                result = true;
+            }
+        }
+
         return result;
     }
 
@@ -101,6 +123,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Test_Boss()
+    {
+        foreach (var theStair in stairs)
+        {
+            if (theStair.ThisFloor == 5)
+            {
+                theStair.BossGen.SetBoss();
+            }
+        }
+    }
+
     private void RestoreHealth()
     {
         if(currentFloor == 0)  return;
@@ -115,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     public void AttackUp()
     {
-        player.Attack++;
+        player.Attack += 1;
         Debug.Log($"Player Attack : {player.Attack}");
     }
 }

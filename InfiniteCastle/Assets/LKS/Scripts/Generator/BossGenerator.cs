@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class BossGenerator : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool isBossGenerated = false;
+
+    public GameObject bossPrefab;
+    
+    public bool IsBossGenerated
     {
-        
+        get => isBossGenerated;
+        set => isBossGenerated = value;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetBoss()
     {
-        
+        GameObject obj = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+        obj.transform.parent = transform;
+        IsBossGenerated = true;
     }
 }

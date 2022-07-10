@@ -8,21 +8,28 @@ public class PlayerController : MonoBehaviour, IAttackable
 {
     private bool isAlive = true;
     private bool isGrounded = false;
-    private Vector2 oldPos;
+    private bool isAttackReady = false;
+
+    private int fullInputCount;
+    private int inputRound;
+
     private int attack;
     private int bombCount;
-    private int maxBombCount;
-    
+    private int maxBombCount = 3;
+    private int health;
+    private int maxHealth;
+
     public float jumpSpeed = 3;
     public int bombAttack = 50;
 
+    private Vector2 oldPos;
     private Rigidbody2D rigidbody;
     private Killzone killZone;
     private Collider2D collider;
     private GameManager gameManager;
 
-    private int health;
-    private int maxHealth;
+    private IEnumerator onMoveInput;
+    //private Queue<int> bossAttackInput;
 
     public int Health
     {
@@ -34,6 +41,7 @@ public class PlayerController : MonoBehaviour, IAttackable
                 IsAlive = false;
         }
     }
+
     public int MaxHealth => maxHealth;
 
     public bool IsAlive
@@ -58,7 +66,7 @@ public class PlayerController : MonoBehaviour, IAttackable
         get => bombCount;
         set
         {
-            bombCount = Mathf.Clamp(value, 0, maxHealth);
+            bombCount = Mathf.Clamp(value, 0, maxBombCount);
             Debug.Log($"남은 폭탄 갯수 : {BombCount}");
         }
     }
@@ -111,9 +119,12 @@ public class PlayerController : MonoBehaviour, IAttackable
         if (IsAlive && callbackContext.performed)
         {
             StopAllCoroutines();
-
             Vector2 inputDir = callbackContext.ReadValue<Vector2>();
-            StartCoroutine(OnJump(inputDir));
+
+            //bool temp = CheckBoss();
+            onMoveInput = CheckBoss() ? ResolvePattern(inputDir) : OnJump(inputDir);
+            //StartCoroutine(OnJump(inputDir));
+            StartCoroutine(onMoveInput);
         }
     }
 
@@ -127,9 +138,12 @@ public class PlayerController : MonoBehaviour, IAttackable
             {
                 monster.TakeDamage(bombAttack);
             }
+
             BombCount--;
         }
     }
+
+    #region Jump Methods
 
     private IEnumerator OnJump(Vector2 inputDir)
     {
@@ -153,20 +167,15 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         if (!CheckMonster())
         {
-            Debug.Log("몬스터 없음");
             killZone.MoveUp();
             CheckStair();
-        }
-        else
-        {
-            Debug.Log("몬스터 있음");
         }
     }
 
     private bool CheckMonster()
     {
         int nextFloor = gameManager.CurrentFloor;
-        bool result = gameManager.SetStair(++nextFloor);
+        bool result = gameManager.CheckStair(++nextFloor);
 
         return result;
     }
@@ -191,6 +200,76 @@ public class PlayerController : MonoBehaviour, IAttackable
         gameManager.CurrentFloor++;
     }
 
+    private bool CheckBoss()
+    {
+        bool result = false;
+        Debug.Log("보스 판별중");
+
+        int nextFloor = gameManager.CurrentFloor;
+        if (gameManager.CheckBoss(++nextFloor))
+        {
+            result = true;
+            Debug.Log("다음 층 보스");
+        }
+
+        return result;
+    }
+
+    private void SetBossAttack()
+    {
+        if (isAttackReady) return;
+
+        //bossAttackInput = new Queue<int>(gameManager.BossMonster.Pattern.Count);
+        fullInputCount = gameManager.BossMonster.Pattern.Count;
+        Debug.Log(
+            $"Boss Pattern : {string.Join(" ", gameManager.BossMonster.Pattern.ToArray())}\nCount : {fullInputCount}");
+        inputRound = 0;
+        isAttackReady = true;
+    }
+
+    private IEnumerator ResolvePattern(Vector2 input)
+    {
+        if (!isAttackReady)
+        {
+            SetBossAttack();
+            yield break;
+        }
+
+        Debug.Log("보스의 패턴대로 화살표를 누르고 공격하세요!");
+        Debug.Log($"Input : {input.x}");
+
+        if (!gameManager.BossMonster.IsPatternSet) yield break;
+        //bool contrast = input.x == gameManager.BossMonster.Pattern.Dequeue();
+
+        inputRound = (input.x == gameManager.BossMonster.Pattern.Dequeue()) ? ++inputRound : 0;
+        if (inputRound == fullInputCount)
+        {
+            AttackBoss(inputRound);
+        }
+        else if (inputRound == 0)
+        {
+            AttackBoss(inputRound);
+            isAttackReady = false;
+            SetBossAttack();
+            TakeDamage(gameManager.BossMonster.Attack);
+        }
+
+        yield return null;
+    }
+
+    private void AttackBoss(int count)
+    {
+        Debug.Log("보스 공격!");
+        IAttackable bossAttack = gameManager.BossMonster.GetComponent<IAttackable>();
+        bossAttack.TakeDamage(count * Attack);
+        isAttackReady = false;
+        SetBossAttack();
+    }
+
+    #endregion
+
+    #region IAttackable Methods
+
     public void TakeDamage(int damage)
     {
         Health -= damage;
@@ -205,4 +284,6 @@ public class PlayerController : MonoBehaviour, IAttackable
         StopAllCoroutines();
         collider.isTrigger = true;
     }
+
+    #endregion
 }
