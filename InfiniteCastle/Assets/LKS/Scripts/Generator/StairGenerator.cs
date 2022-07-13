@@ -77,7 +77,6 @@ public class StairGenerator : MonoBehaviour
 
     private void ResetStairs(GameObject stair, Vector3 newPos)
     {
-        Debug.Log("계단 재배치 계산중");
         stair.transform.position = newPos;
         
         int nextX = Random.Range(-1, 1);
@@ -95,6 +94,5 @@ public class StairGenerator : MonoBehaviour
         Stair stairObj = stair.GetComponent<Stair>();
         stairCount++;
         stairObj.ThisFloor = stairCount;
-        Debug.Log("계단 재배치 완료");
     }
 }

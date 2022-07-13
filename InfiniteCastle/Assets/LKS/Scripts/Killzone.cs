@@ -31,7 +31,6 @@ public class Killzone : MonoBehaviour
     {
         if (other.CompareTag($"Stair"))
         {
-            Debug.Log("계단 회수");
             gameManager.StairManager.RemoveStairs(other.gameObject);
         }
     }

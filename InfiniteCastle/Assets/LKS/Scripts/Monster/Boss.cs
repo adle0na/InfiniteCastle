@@ -12,6 +12,7 @@ public class Boss : MonoBehaviour, IAttackable
     private bool isAlive = true;
     private bool isPatternSet = false;
     private Queue<int> pattern;
+    private GameManager gameManager;
     
     public bool IsAlive
     {
@@ -51,6 +52,7 @@ public class Boss : MonoBehaviour, IAttackable
 
     private void OnEnable()
     {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         Health = MaxHealth;
         Attack = 10;
     }
@@ -65,6 +67,7 @@ public class Boss : MonoBehaviour, IAttackable
         IsAlive = false;
         BossGenerator bossGen = GetComponentInParent<BossGenerator>();
         bossGen.IsBossGenerated = false;
+        gameManager.UIManage.SetBossUI(IsAlive);
         Destroy(gameObject);
     }
 
@@ -79,7 +82,8 @@ public class Boss : MonoBehaviour, IAttackable
             if (result == 0) result = 1;
             pattern.Enqueue(result);
         }
-
+        
+        gameManager.UIManage.RefreshBossPattern(Pattern);
         isPatternSet = true;
     }
 }

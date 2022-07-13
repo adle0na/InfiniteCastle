@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public delegate void HpDelegate();
+
 public class PlayerController : MonoBehaviour, IAttackable
 {
+    #region Variables
+    
     private bool isAlive = true;
     private bool isGrounded = false;
     private bool isAttackReady = false;
@@ -29,7 +33,11 @@ public class PlayerController : MonoBehaviour, IAttackable
     private GameManager gameManager;
 
     private IEnumerator onMoveInput;
-    //private Queue<int> bossAttackInput;
+    public HpDelegate onHpChange;
+
+    #endregion
+    
+    #region Properties
 
     public int Health
     {
@@ -39,11 +47,10 @@ public class PlayerController : MonoBehaviour, IAttackable
             health = Mathf.Clamp(value, 0, maxHealth);
             if (health == 0)
                 IsAlive = false;
+            onHpChange.Invoke();
         }
     }
-
     public int MaxHealth => maxHealth;
-
     public bool IsAlive
     {
         get => isAlive;
@@ -51,30 +58,34 @@ public class PlayerController : MonoBehaviour, IAttackable
         {
             isAlive = value;
             if (!isAlive)
+            {
                 OnDie();
+                gameManager.UIManage.SetGameOver(true);
+            }
         }
     }
-
     public int Attack
     {
         get => attack;
         set => attack = value;
     }
-
     public int BombCount
     {
         get => bombCount;
         set
         {
             bombCount = Mathf.Clamp(value, 0, maxBombCount);
-            Debug.Log($"남은 폭탄 갯수 : {BombCount}");
+            gameManager.UIManage.RefreshBombCount();
         }
     }
-
     public int MaxBombCount
     {
         get => maxBombCount;
     }
+
+    #endregion
+    
+    #region Unity Built-In
 
     private void Awake()
     {
@@ -113,6 +124,10 @@ public class PlayerController : MonoBehaviour, IAttackable
         }
     }
 
+    #endregion
+    
+    #region Move And Attack
+
     public void OnJumpInput(InputAction.CallbackContext callbackContext)
     {
         if (!isGrounded) return;
@@ -143,6 +158,35 @@ public class PlayerController : MonoBehaviour, IAttackable
         }
     }
 
+    public void OnJumpInput(Vector2 dir)
+    {
+        if (!isGrounded) return;
+        if (IsAlive)
+        {
+            StopAllCoroutines();
+            
+            onMoveInput = CheckBoss() ? ResolvePattern(dir) : OnJump(dir);
+            StartCoroutine(onMoveInput);
+        }
+    }
+
+    public void OnAttack()
+    {
+        if (BombCount == 0) return;
+        if (IsAlive)
+        {
+            Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
+            foreach (var monster in monsters)
+            {
+                monster.TakeDamage(bombAttack);
+            }
+
+            BombCount--;
+        }
+    }
+
+    #endregion
+    
     #region Jump Methods
 
     private IEnumerator OnJump(Vector2 inputDir)
@@ -203,13 +247,11 @@ public class PlayerController : MonoBehaviour, IAttackable
     private bool CheckBoss()
     {
         bool result = false;
-        Debug.Log("보스 판별중");
 
         int nextFloor = gameManager.CurrentFloor;
         if (gameManager.CheckBoss(++nextFloor))
         {
             result = true;
-            Debug.Log("다음 층 보스");
         }
 
         return result;
@@ -234,12 +276,7 @@ public class PlayerController : MonoBehaviour, IAttackable
             SetBossAttack();
             yield break;
         }
-
-        Debug.Log("보스의 패턴대로 화살표를 누르고 공격하세요!");
-        Debug.Log($"Input : {input.x}");
-
         if (!gameManager.BossMonster.IsPatternSet) yield break;
-        //bool contrast = input.x == gameManager.BossMonster.Pattern.Dequeue();
 
         inputRound = (input.x == gameManager.BossMonster.Pattern.Dequeue()) ? ++inputRound : 0;
         if (inputRound == fullInputCount)
@@ -273,14 +310,12 @@ public class PlayerController : MonoBehaviour, IAttackable
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        Debug.Log($"플레이어는 {damage}의 데미지를 입었다. \n 남은 체력 : {Health}");
         // 피격 이펙트
     }
 
     public void OnDie()
     {
         Time.timeScale = 0;
-        Debug.Log("플레이어 사망");
         StopAllCoroutines();
         collider.isTrigger = true;
     }

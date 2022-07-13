@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private Stair[] stairs;
     private ItemFactory factory;
     private Boss bossMonster;
+    private UIManager uiManager;
 
     [SerializeField] private int currentFloor;
     [SerializeField] private int setNewMonster = 50;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     public Stair TheStair => stair;
     public ItemFactory Factory => factory;
     public Boss BossMonster => bossMonster;
+    public UIManager UIManage => uiManager;
 
     public int CurrentFloor
     {
@@ -30,11 +32,11 @@ public class GameManager : MonoBehaviour
         set
         {
             currentFloor = value;
-            Debug.Log(currentFloor);
             if((currentFloor % healthRestore)  == 0)
                 RestoreHealth();
             if ((currentFloor % setNewMonster) == 0)
                 SetIndex();
+            uiManager.RefreshFloor();
         }
     }
 
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindObjectOfType<PlayerController>();
         stairManager = GameObject.FindObjectOfType<StairGenerator>();
         factory = GameObject.FindObjectOfType<ItemFactory>();
+        uiManager = GameObject.FindObjectOfType<UIManager>();
     }
     
     private void Start()
@@ -84,16 +87,15 @@ public class GameManager : MonoBehaviour
     public bool CheckBoss(int thisFloor)
     {
         bool result = false;
-
-        //if (TryGetComponent(out bossMonster))
+        
         if (GameObject.FindObjectOfType<Boss>() != null)
         {
             bossMonster = GameObject.FindObjectOfType<Boss>();
-            Debug.Log("보스 소환중");
             stair = bossMonster.GetComponentInParent<Stair>();
             if (stair.ThisFloor == thisFloor)
             {
                 result = true;
+                uiManager.SetBossUI(result);
             }
         }
 
@@ -108,8 +110,6 @@ public class GameManager : MonoBehaviour
         {
             stair.MonsterIndex++;
         }
-        
-        Debug.Log("몬스터 변경");
     }
 
     private void Test_SetItems()
