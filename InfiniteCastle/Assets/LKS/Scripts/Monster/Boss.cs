@@ -6,9 +6,9 @@ using Random = UnityEngine.Random;
 
 public class Boss : MonoBehaviour, IAttackable
 {
-    private int attack;
+    private int attack = 10;
     private int health;
-    private int maxHealth = 10;
+    private int maxHealth = 100;
     private bool isAlive = true;
     private bool isPatternSet = false;
     private Queue<int> pattern;
@@ -53,11 +53,14 @@ public class Boss : MonoBehaviour, IAttackable
 
     public Queue<int> Pattern => pattern;
 
-    private void OnEnable()
+    private void Awake()
     {
         gameManager = GameObject.FindObjectOfType<GameManager>();
+    }
+
+    private void OnEnable()
+    {
         Health = MaxHealth;
-        Attack = 10;
     }
 
     public void TakeDamage(int damage)

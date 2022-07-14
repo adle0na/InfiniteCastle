@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     private ItemFactory factory;
     private Boss bossMonster;
     private UIManager uiManager;
+    private MemoryPool monPool;
+    private MemoryPool bossPool;
+    private MemoryPool itemPool;
 
     [SerializeField] private int currentFloor;
     [SerializeField] private int setNewMonster = 50;
@@ -25,6 +28,9 @@ public class GameManager : MonoBehaviour
     public ItemFactory Factory => factory;
     public Boss BossMonster => bossMonster;
     public UIManager UIManage => uiManager;
+    public MemoryPool MonPool => monPool;
+    public MemoryPool BossPool => bossPool;
+    public MemoryPool ItemPool => itemPool;
 
     public int CurrentFloor
     {
@@ -46,6 +52,9 @@ public class GameManager : MonoBehaviour
         stairManager = GameObject.FindObjectOfType<StairGenerator>();
         factory = GameObject.FindObjectOfType<ItemFactory>();
         uiManager = GameObject.FindObjectOfType<UIManager>();
+        monPool = GameObject.Find("MonsterMemoryPool").GetComponent<MemoryPool>();
+        //bossPool = GameObject.Find("BossMemoryPool").GetComponent<MemoryPool>();
+        itemPool = GameObject.Find("ItemMemoryPool").GetComponent<MemoryPool>();
     }
     
     private void Start()
@@ -110,6 +119,10 @@ public class GameManager : MonoBehaviour
         {
             stair.MonsterIndex++;
         }
+        
+        Monster monster = stair.MonGenerator.monsters[stair.MonsterIndex].GetComponent<Monster>();
+        monster.MaxHealth *= 2;
+        monster.Attack *= 2;
     }
 
     private void Test_SetItems()

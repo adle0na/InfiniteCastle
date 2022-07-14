@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,22 @@ using UnityEngine;
 public class MonsterGenerator : MonoBehaviour
 {
     private bool isMonsterSpawned = false;
+    private int monsterIndex;
     
     public GameObject[] monsters;
+    private GameManager gameManager;
+
+    public int MonsterIndex
+    {
+        get => monsterIndex;
+        set => monsterIndex = value;
+    }
+
+    private void Awake()
+    {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+    }
+
     public bool IsMonsterSpawned
     {
         get => isMonsterSpawned;
@@ -15,9 +30,10 @@ public class MonsterGenerator : MonoBehaviour
 
     public void SpawnMonster(int index)
     {
-        GameObject obj = Instantiate(monsters[index], transform.position, Quaternion.identity);
-        Monster monster = obj.GetComponent<Monster>();
-        monster.Attack = 2 * (index + 1);
+        MonsterIndex = index;
+
+        GameObject obj = gameManager.MonPool.GetObject(index);
+        obj.transform.position = this.transform.position;
         obj.transform.parent = this.transform;
         isMonsterSpawned = true;
     }

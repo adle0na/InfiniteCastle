@@ -18,6 +18,7 @@ public class MonsterHP : MonoBehaviour
     {
         if (target != null)
         {
+            RefreshHPBar();
             target.onHpChange += RefreshHPBar;
         }
     }

@@ -43,18 +43,21 @@ public class Item : MonoBehaviour
     private void GetAttackUp()
     {
         gameManager.AttackUp();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameManager.ItemPool.ReturnObject(itemGenerator.Index, gameObject);
     }
 
     private void GetHealthUp()
     {
         gameManager.HealthUp();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameManager.ItemPool.ReturnObject(itemGenerator.Index, gameObject);
     }
 
     private void GetBomb()
     {
         ++gameManager.Player.BombCount;
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameManager.ItemPool.ReturnObject(itemGenerator.Index, gameObject);
     }
 }

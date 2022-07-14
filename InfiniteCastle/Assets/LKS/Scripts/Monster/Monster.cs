@@ -6,9 +6,11 @@ using UnityEngine;
 public class Monster : MonoBehaviour, IAttackable
 {
     private int health;
-    private int maxHealth;
+    private int maxHealth = 5;
     private bool isAlive = true;
-    private int attack;
+    private int attack = 2;
+
+    private GameManager gameManager;
 
     public bool IsAlive
     {
@@ -32,7 +34,13 @@ public class Monster : MonoBehaviour, IAttackable
             onHpChange?.Invoke();
         }
     }
-    public int MaxHealth => maxHealth;
+
+    public int MaxHealth
+    {
+        get => maxHealth;
+        set => maxHealth = value;
+    }
+
     public int Attack
     {
         get => attack;
@@ -43,9 +51,12 @@ public class Monster : MonoBehaviour, IAttackable
 
     private void Awake()
     {
-        maxHealth = 5;
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+    }
+
+    private void OnEnable()
+    {
         Health = maxHealth;
-        Attack = 2;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -67,7 +78,7 @@ public class Monster : MonoBehaviour, IAttackable
     {
         MonsterGenerator generator = GetComponentInParent<MonsterGenerator>();
         generator.IsMonsterSpawned = false;
-        Debug.Log($"{gameObject.name}을 죽였다!");
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameManager.MonPool.ReturnObject(generator.MonsterIndex, gameObject);
     }
 }
