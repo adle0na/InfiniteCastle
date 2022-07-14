@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public delegate void HpDelegate();
+
 
 public class PlayerController : MonoBehaviour, IAttackable
 {
@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour, IAttackable
     private GameManager gameManager;
 
     private IEnumerator onMoveInput;
-    public HpDelegate onHpChange;
 
     #endregion
     
@@ -69,6 +68,9 @@ public class PlayerController : MonoBehaviour, IAttackable
         get => attack;
         set => attack = value;
     }
+
+    public HpDelegate onHpChange { get; set; }
+
     public int BombCount
     {
         get => bombCount;

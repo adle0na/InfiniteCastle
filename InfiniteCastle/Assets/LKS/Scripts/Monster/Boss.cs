@@ -36,6 +36,7 @@ public class Boss : MonoBehaviour, IAttackable
                 OnDie();
             else
                 SetPattern();
+            onHpChange?.Invoke();
         } 
     }
     public int MaxHealth
@@ -47,6 +48,8 @@ public class Boss : MonoBehaviour, IAttackable
         get => attack;
         set => attack = value;
     }
+
+    public HpDelegate onHpChange { get; set; }
 
     public Queue<int> Pattern => pattern;
 

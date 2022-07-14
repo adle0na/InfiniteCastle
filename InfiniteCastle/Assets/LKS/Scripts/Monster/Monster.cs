@@ -29,6 +29,7 @@ public class Monster : MonoBehaviour, IAttackable
             health = Mathf.Clamp(value, 0, MaxHealth);
             if (health == 0)
                 OnDie();
+            onHpChange?.Invoke();
         }
     }
     public int MaxHealth => maxHealth;
@@ -37,6 +38,8 @@ public class Monster : MonoBehaviour, IAttackable
         get => attack;
         set => attack = value;
     }
+
+    public HpDelegate onHpChange { get; set; }
 
     private void Awake()
     {
