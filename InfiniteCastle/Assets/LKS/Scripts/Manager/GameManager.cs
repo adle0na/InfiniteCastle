@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         factory = GameObject.FindObjectOfType<ItemFactory>();
         uiManager = GameObject.FindObjectOfType<UIManager>();
         monPool = GameObject.Find("MonsterMemoryPool").GetComponent<MemoryPool>();
-        //bossPool = GameObject.Find("BossMemoryPool").GetComponent<MemoryPool>();
+        bossPool = GameObject.Find("BossMemoryPool").GetComponent<MemoryPool>();
         itemPool = GameObject.Find("ItemMemoryPool").GetComponent<MemoryPool>();
     }
     
@@ -114,15 +114,21 @@ public class GameManager : MonoBehaviour
     private void SetIndex()
     {
         if (CurrentFloor == 0) return;
+
+        int index = 0;
         
         foreach (var stair in stairs)
         {
             stair.MonsterIndex++;
+            index = stair.MonsterIndex;
         }
-        
-        Monster monster = stair.MonGenerator.monsters[stair.MonsterIndex].GetComponent<Monster>();
-        monster.MaxHealth *= 2;
-        monster.Attack *= 2;
+
+        for (int i = 0; i < monPool.ObjPools[index].Count; i++)
+        {
+            Monster monster = monPool.ObjPools[index].ElementAt(i).GetComponent<Monster>();
+            monster.MaxHealth *= 2;
+            monster.Attack *= 2;            
+        }
     }
 
     private void Test_SetItems()

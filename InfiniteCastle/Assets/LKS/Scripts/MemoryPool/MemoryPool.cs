@@ -6,11 +6,12 @@ using UnityEngine.Serialization;
 
 public class MemoryPool : MonoBehaviour
 {
-    private int poolCount = 4;
+    [SerializeField] private int poolCount = 4;
     private int indexNumber;
 
     public GameObject[] objPrefabs;
     private Queue<GameObject>[] objPools;
+    public Queue<GameObject>[] ObjPools => objPools;
 
     private void Awake()
     {
@@ -52,7 +53,7 @@ public class MemoryPool : MonoBehaviour
         return obj;
     }
 
-    public void ReturnObject(int index, GameObject returnObj)
+    public void ReturnObject(GameObject returnObj, int index = 0)
     {
         returnObj.transform.position = this.transform.position;
         returnObj.transform.parent = this.transform;

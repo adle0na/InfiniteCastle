@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         SetGameOver(false);
+        SetBossUI(false);
 
         if (mainPlayer != null)
         {

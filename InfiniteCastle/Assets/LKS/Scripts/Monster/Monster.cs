@@ -78,7 +78,6 @@ public class Monster : MonoBehaviour, IAttackable
     {
         MonsterGenerator generator = GetComponentInParent<MonsterGenerator>();
         generator.IsMonsterSpawned = false;
-        //Destroy(gameObject);
-        gameManager.MonPool.ReturnObject(generator.MonsterIndex, gameObject);
+        gameManager.MonPool.ReturnObject(gameObject, generator.MonsterIndex);
     }
 }

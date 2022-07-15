@@ -7,6 +7,7 @@ public class BossGenerator : MonoBehaviour
     private bool isBossGenerated = false;
 
     public GameObject bossPrefab;
+    private GameManager gameManager;
     
     public bool IsBossGenerated
     {
@@ -14,9 +15,16 @@ public class BossGenerator : MonoBehaviour
         set => isBossGenerated = value;
     }
 
+    private void Awake()
+    {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+    }
+
     public void SetBoss()
     {
-        GameObject obj = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+        //GameObject obj = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+        GameObject obj = gameManager.BossPool.GetObject();
+        obj.transform.position = transform.position;
         obj.transform.parent = transform;
         IsBossGenerated = true;
     }
