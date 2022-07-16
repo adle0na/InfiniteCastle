@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisFloor: 0
   monsterGenerateInterval: 7
-  bossGenerateInterval: 1000
+  bossGenerateInterval: 500
   itemGenInterval: 30
 --- !u!1 &4871633736993848356
 GameObject:

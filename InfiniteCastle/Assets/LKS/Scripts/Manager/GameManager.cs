@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int currentFloor;
     [SerializeField] private int setNewMonster = 50;
     [SerializeField] private int healthRestore = 10;
-    [SerializeField] private int hpRecovoery = 10;
+    [SerializeField] private int hpRecovery = 10;
 
     public PlayerController Player => player;
     public StairGenerator StairManager => stairManager;
@@ -44,6 +45,12 @@ public class GameManager : MonoBehaviour
                 SetIndex();
             uiManager.RefreshFloor();
         }
+    }
+
+    public int HpRecovery
+    {
+        get => hpRecovery;
+        set => hpRecovery = Mathf.Clamp(value, 10, 20);
     }
 
     private void Awake()
@@ -157,13 +164,13 @@ public class GameManager : MonoBehaviour
     private void RestoreHealth()
     {
         if(currentFloor == 0)  return;
-        player.Health += hpRecovoery;
+        player.Health += HpRecovery;
     }
 
     public void HealthUp()
     {
-        hpRecovoery += 3;
-        Debug.Log($"hpRecovoery : {hpRecovoery}");
+        HpRecovery += 3;
+        Debug.Log($"hpRecovoery : {HpRecovery}");
     }
 
     public void AttackUp()
