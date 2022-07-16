@@ -2924,7 +2924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd59c2a581f2693439cd1ddfeb73fd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initStairCount: 13
+  initStairCount: 30
   stairPrefab: {fileID: 1059444234919761636, guid: 5954f789064809f4dbe18f4465aae352, type: 3}
 --- !u!1 &2089524246
 GameObject:

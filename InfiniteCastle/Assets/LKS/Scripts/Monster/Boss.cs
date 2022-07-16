@@ -80,7 +80,7 @@ public class Boss : MonoBehaviour, IAttackable
 
     private void SetPattern()
     {
-        int count = Random.Range(4, 7);
+        int count = Random.Range(2, 4);
         pattern = new Queue<int>(count);
 
         for (int i = 0; i < count; i++)

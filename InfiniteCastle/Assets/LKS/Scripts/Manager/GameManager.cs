@@ -126,8 +126,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < monPool.ObjPools[index].Count; i++)
         {
             Monster monster = monPool.ObjPools[index].ElementAt(i).GetComponent<Monster>();
-            monster.MaxHealth *= 2;
-            monster.Attack *= 2;            
+            monster.MaxHealth += 3;
+            monster.Attack += 2;            
         }
     }
 
@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
 
     public void HealthUp()
     {
-        hpRecovoery += 5;
+        hpRecovoery += 3;
         Debug.Log($"hpRecovoery : {hpRecovoery}");
     }
 
