@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ItemGenerator : MonoBehaviour
 {
-    private ItemFactory itemFactory;
     private GameManager gameManager;
     private bool isItemSet = false;
     private int index;
@@ -29,7 +28,6 @@ public class ItemGenerator : MonoBehaviour
 
     private void Awake()
     {
-        itemFactory = GameObject.FindObjectOfType<ItemFactory>();
         gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 

@@ -13,7 +13,6 @@ public class Item : MonoBehaviour
     private void OnEnable()
     {
         gameManager = GameObject.FindObjectOfType<GameManager>();
-        
     }
 
     private void OnTriggerEnter2D(Collider2D col)

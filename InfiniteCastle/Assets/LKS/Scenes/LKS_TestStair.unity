@@ -413,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &230212582
 Transform:
   m_ObjectHideFlags: 0
@@ -1542,7 +1542,7 @@ MonoBehaviour:
   currentFloor: 0
   setNewMonster: 50
   healthRestore: 10
-  hpRecovoery: 10
+  hpRecovery: 10
 --- !u!1 &1082479058
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,7 +2924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd59c2a581f2693439cd1ddfeb73fd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initStairCount: 30
+  initStairCount: 20
   stairPrefab: {fileID: 1059444234919761636, guid: 5954f789064809f4dbe18f4465aae352, type: 3}
 --- !u!1 &2089524246
 GameObject:

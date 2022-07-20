@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     private StairGenerator stairManager;
     private Stair stair;
     private Stair[] stairs;
-    private ItemFactory factory;
     private Boss bossMonster;
     private UIManager uiManager;
     private MemoryPool monPool;
@@ -26,7 +25,6 @@ public class GameManager : MonoBehaviour
     public PlayerController Player => player;
     public StairGenerator StairManager => stairManager;
     public Stair TheStair => stair;
-    public ItemFactory Factory => factory;
     public Boss BossMonster => bossMonster;
     public UIManager UIManage => uiManager;
     public MemoryPool MonPool => monPool;
@@ -57,7 +55,6 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindObjectOfType<PlayerController>();
         stairManager = GameObject.FindObjectOfType<StairGenerator>();
-        factory = GameObject.FindObjectOfType<ItemFactory>();
         uiManager = GameObject.FindObjectOfType<UIManager>();
         monPool = GameObject.Find("MonsterMemoryPool").GetComponent<MemoryPool>();
         bossPool = GameObject.Find("BossMemoryPool").GetComponent<MemoryPool>();
