@@ -18,9 +18,9 @@ public class Monster : MonoBehaviour, IAttackable
         set
         {
             isAlive = value;
-            if(!isAlive)
+            if (!isAlive)
                 OnDie();
-        } 
+        }
     }
 
     public int Health
@@ -73,12 +73,20 @@ public class Monster : MonoBehaviour, IAttackable
         Health -= damage;
         Debug.Log($"{gameObject.name}의 남은 체력 : {Health}");
     }
-    
+
     public void OnDie()
     {
         MonsterGenerator generator = GetComponentInParent<MonsterGenerator>();
         generator.IsMonsterSpawned = false;
         gameManager.MonPool.ReturnObject(gameObject, generator.MonsterIndex);
         gameManager.KillMonsterCount++;
+    }
+
+    public void OnRestart()
+    {
+        maxHealth = 5;
+        Health = maxHealth;
+        attack = 2;
+        isAlive = true;
     }
 }

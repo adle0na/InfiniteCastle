@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     private int maxHealth;
 
     public float jumpSpeed = 3;
-    public int bombAttack = 50;
+    public int bombAttack = 10000;
 
     private Vector2 oldPos;
     private Rigidbody2D rigidbody;
@@ -135,10 +135,8 @@ public class PlayerController : MonoBehaviour, IAttackable
         {
             StopAllCoroutines();
             Vector2 inputDir = callbackContext.ReadValue<Vector2>();
-
-            //bool temp = CheckBoss();
+            
             onMoveInput = CheckBoss() ? ResolvePattern(inputDir) : OnJump(inputDir);
-            //StartCoroutine(OnJump(inputDir));
             StartCoroutine(onMoveInput);
         }
     }
@@ -231,8 +229,6 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     private void CheckStair()
     {
-        Debug.DrawRay(transform.position, Vector3.down, new Color(1, 0, 0));
-
         RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("KillZone"));
         if (rayhit.collider.CompareTag("KillZone"))
         {
@@ -240,7 +236,8 @@ public class PlayerController : MonoBehaviour, IAttackable
             OnDie();
             return;
         }
-
+        
+        // 아니 리턴했는데 왜 숫자가 올라가냐고 도라이냐고~~~~~~~~
         gameManager.CurrentFloor++;
     }
 
@@ -321,4 +318,11 @@ public class PlayerController : MonoBehaviour, IAttackable
     }
 
     #endregion
+
+    public void OnRestart()
+    {
+        Health = maxHealth;
+        BombCount = 1;
+        IsAlive = true;
+    }
 }

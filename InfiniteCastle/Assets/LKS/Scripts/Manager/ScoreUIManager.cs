@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoreUIManager : MonoBehaviour
@@ -27,6 +28,9 @@ public class ScoreUIManager : MonoBehaviour
         homeButton = transform.Find("Home").GetComponent<Button>();
         retryButton = transform.Find("Retry").GetComponent<Button>();
         
+        homeButton.onClick.AddListener(OnHomeButton);
+        retryButton.onClick.AddListener(OnRetryButton);
+        
         if (!gameManager.Player.IsAlive)
         {
             RefreshScores();
@@ -47,5 +51,16 @@ public class ScoreUIManager : MonoBehaviour
 
         int total = floor + monster + boss;
         scoreTexts[3].text = $"{total}";
+    }
+
+    private void OnRetryButton()
+    {
+        SceneManager.LoadScene(0);
+        gameManager.OnRestart();
+    }
+
+    private void OnHomeButton()
+    {
+        Application.Quit();
     }
 }

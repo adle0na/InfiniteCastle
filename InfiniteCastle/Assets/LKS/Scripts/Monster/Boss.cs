@@ -11,9 +11,12 @@ public class Boss : MonoBehaviour, IAttackable
     private int maxHealth = 100;
     private bool isAlive = true;
     private bool isPatternSet = false;
+    private int minPatternCount = 2;
+    private int maxPatternCount = 5;
+
     private Queue<int> pattern;
     private GameManager gameManager;
-    
+
     public bool IsAlive
     {
         get => isAlive;
@@ -25,6 +28,7 @@ public class Boss : MonoBehaviour, IAttackable
         get => isPatternSet;
         set => isPatternSet = value;
     }
+
     public int Health
     {
         get => health;
@@ -32,17 +36,19 @@ public class Boss : MonoBehaviour, IAttackable
         {
             health = Mathf.Clamp(value, 0, maxHealth);
             Debug.Log($"Boss Health : {Health}");
-            if(health == 0)
+            if (health == 0)
                 OnDie();
             else
                 SetPattern();
             onHpChange?.Invoke();
-        } 
+        }
     }
+
     public int MaxHealth
     {
         get => maxHealth;
     }
+
     public int Attack
     {
         get => attack;
@@ -61,6 +67,11 @@ public class Boss : MonoBehaviour, IAttackable
     private void OnEnable()
     {
         Health = MaxHealth;
+        if (gameManager.KillBossCount > 0)
+        {
+            minPatternCount++;
+            maxPatternCount++;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -78,9 +89,16 @@ public class Boss : MonoBehaviour, IAttackable
         gameManager.KillBossCount++;
     }
 
+    public void OnRestart()
+    {
+        minPatternCount = 2;
+        maxPatternCount = 5;
+        isAlive = true;
+    }
+
     private void SetPattern()
     {
-        int count = Random.Range(2, 4);
+        int count = Random.Range(minPatternCount, maxPatternCount);
         pattern = new Queue<int>(count);
 
         for (int i = 0; i < count; i++)
@@ -89,7 +107,7 @@ public class Boss : MonoBehaviour, IAttackable
             if (result == 0) result = 1;
             pattern.Enqueue(result);
         }
-        
+
         gameManager.UIManage.RefreshBossPattern(Pattern);
         isPatternSet = true;
     }

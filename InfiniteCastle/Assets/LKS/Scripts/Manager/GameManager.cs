@@ -167,6 +167,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnRestart()
+    {
+        player.OnRestart();
+        for (int j = 0; j < MonPool.ObjPools.Length; j++)
+        {
+            for (int i = 0; i < MonPool.ObjPools[j].Count; i++)
+            {
+                Monster monster = MonPool.ObjPools[j].ElementAt(i).GetComponent<Monster>();
+                monster.OnRestart();
+            }
+        }
+
+        bossMonster = BossPool.ObjPools[0].ElementAt(0).GetComponent<Boss>();
+        bossMonster.OnRestart();
+        
+        killMonsterCount = 0;
+        killBossCount = 0;
+
+        Time.timeScale = 1;
+    }
+
     #region Item Methods
     
     private void RestoreHealth()
