@@ -35,7 +35,6 @@ public class Boss : MonoBehaviour, IAttackable
         set
         {
             health = Mathf.Clamp(value, 0, maxHealth);
-            Debug.Log($"Boss Health : {Health}");
             if (health == 0)
                 OnDie();
             else

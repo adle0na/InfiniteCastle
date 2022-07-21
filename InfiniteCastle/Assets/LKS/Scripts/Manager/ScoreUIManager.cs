@@ -55,12 +55,13 @@ public class ScoreUIManager : MonoBehaviour
 
     private void OnRetryButton()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         gameManager.OnRestart();
     }
 
     private void OnHomeButton()
     {
-        Application.Quit();
+        gameManager.OnRestart();
+        SceneManager.LoadScene(0);
     }
 }
