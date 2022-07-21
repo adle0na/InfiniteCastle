@@ -74,8 +74,8 @@ public class Boss : MonoBehaviour, IAttackable
         BossGenerator bossGen = GetComponentInParent<BossGenerator>();
         bossGen.IsBossGenerated = false;
         gameManager.UIManage.SetBossUI(IsAlive);
-        //Destroy(gameObject);
         gameManager.BossPool.ReturnObject(gameObject);
+        gameManager.KillBossCount++;
     }
 
     private void SetPattern()

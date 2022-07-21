@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
+    
     private PlayerController player;
     private StairGenerator stairManager;
     private Stair stair;
@@ -21,7 +24,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int setNewMonster = 50;
     [SerializeField] private int healthRestore = 10;
     [SerializeField] private int hpRecovery = 10;
+    private int killMonsterCount = 0;
+    private int killBossCount = 0;
 
+    #endregion
+    
+    #region Properties
+    
     public PlayerController Player => player;
     public StairGenerator StairManager => stairManager;
     public Stair TheStair => stair;
@@ -50,6 +59,21 @@ public class GameManager : MonoBehaviour
         get => hpRecovery;
         set => hpRecovery = Mathf.Clamp(value, 10, 20);
     }
+    
+    public int KillMonsterCount
+    {
+        get => killMonsterCount;
+        set => killMonsterCount = value;
+    }
+    public int KillBossCount
+    {
+        get => killBossCount;
+        set => killBossCount = value;
+    }
+    
+    #endregion
+
+    #region Unity Built_In
 
     private void Awake()
     {
@@ -67,6 +91,14 @@ public class GameManager : MonoBehaviour
         //Test_SetItems();
         //Test_Boss();
     }
+
+    private void OnEnable()
+    {
+        KillMonsterCount = 0;
+        KillBossCount = 0;
+    }
+
+    #endregion
     
     public void SetPlayer(Vector3 stairPos)
     {
@@ -135,6 +167,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Item Methods
+    
+    private void RestoreHealth()
+    {
+        if(currentFloor == 0)  return;
+        player.Health += HpRecovery;
+    }
+
+    public void HealthUp()
+    {
+        HpRecovery += 3;
+        Debug.Log($"hpRecovoery : {HpRecovery}");
+    }
+
+    public void AttackUp()
+    {
+        player.Attack += 1;
+        Debug.Log($"Player Attack : {player.Attack}");
+    }
+    
+    #endregion
+    
+    #region Test Methods
+
     private void Test_SetItems()
     {
         foreach (var theStair in stairs)
@@ -158,21 +214,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void RestoreHealth()
-    {
-        if(currentFloor == 0)  return;
-        player.Health += HpRecovery;
-    }
-
-    public void HealthUp()
-    {
-        HpRecovery += 3;
-        Debug.Log($"hpRecovoery : {HpRecovery}");
-    }
-
-    public void AttackUp()
-    {
-        player.Attack += 1;
-        Debug.Log($"Player Attack : {player.Attack}");
-    }
+    #endregion
 }
