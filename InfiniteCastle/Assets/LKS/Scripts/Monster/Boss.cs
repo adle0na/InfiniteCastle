@@ -65,12 +65,15 @@ public class Boss : MonoBehaviour, IAttackable
 
     private void OnEnable()
     {
+        IsAlive = true;
         Health = MaxHealth;
         if (gameManager.KillBossCount > 0)
         {
             minPatternCount++;
             maxPatternCount++;
         }
+
+        SetPattern();
     }
 
     public void TakeDamage(int damage)

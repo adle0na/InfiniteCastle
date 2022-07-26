@@ -56,7 +56,7 @@ public class RankingManager// : MonoBehaviour
     {
         rankScores[rankScores.Length - 1] = newScore;
 
-        for (int i = rankScores.Length - 1; i > 1; i--)
+        for (int i = rankScores.Length - 1; i > 0; i--)
         {
             if (rankScores[i] > rankScores[i - 1])
             {

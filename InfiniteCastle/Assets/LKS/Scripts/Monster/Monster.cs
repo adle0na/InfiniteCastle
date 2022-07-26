@@ -71,7 +71,6 @@ public class Monster : MonoBehaviour, IAttackable
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        Debug.Log($"{gameObject.name}의 남은 체력 : {Health}");
     }
 
     public void OnDie()
