@@ -128,7 +128,7 @@ MonoBehaviour:
   thisFloor: 0
   monsterGenerateInterval: 7
   bossGenerateInterval: 500
-  itemGenInterval: 30
+  itemGenInterval: 35
 --- !u!1 &4871633736993848356
 GameObject:
   m_ObjectHideFlags: 0
