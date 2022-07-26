@@ -51,6 +51,9 @@ public class ScoreUIManager : MonoBehaviour
 
         int total = floor + monster + boss;
         scoreTexts[3].text = $"{total}";
+
+        if (total > RankingManager.Inst.RankScores[RankingManager.Inst.RankScores.Length - 1])
+            RankingManager.Inst.NewRank(total);
     }
 
     private void OnRetryButton()
@@ -63,5 +66,16 @@ public class ScoreUIManager : MonoBehaviour
     {
         gameManager.OnRestart();
         SceneManager.LoadScene(0);
+    }
+
+    /// <summary>
+    /// 구현 예정 방식
+    /// Total score가 1위 숫자 이상일 시 숫자 옆에 New Best를 표시
+    /// 점수를 PlayerPref에 저장 후 비교 알고리즘을 통해 5개를 선별
+    /// 위에서부터 정렬하여 랭킹에 표시
+    /// </summary>
+    private void SaveScore()
+    {
+        
     }
 }

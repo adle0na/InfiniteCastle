@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class HomeSceneManager : MonoBehaviour
 {
     public GameObject settings;
+    public GameObject main;
+    public GameObject ranking;
+    
     public Button startButton;
     public Button rankingButton;
     public Button settingsButton;
@@ -28,9 +31,16 @@ public class HomeSceneManager : MonoBehaviour
 
     private void OnRanking()
     {
-        
+        main.SetActive(false);
+        ranking.SetActive(true);
     }
 
+    public void EndRanking()
+    {
+        ranking.SetActive(false);
+        main.SetActive(true);
+    }
+    
     private void OnSettingUI()
     {
         settings.SetActive(true);

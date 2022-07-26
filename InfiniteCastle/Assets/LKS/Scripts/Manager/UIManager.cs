@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    #region Variables
+    
     public Image hpBar;
     public Image[] bombers;
     public Text hpText;
@@ -23,6 +25,8 @@ public class UIManager : MonoBehaviour
     private PlayerController mainPlayer;
     private GameManager gameManager;
 
+    #endregion
+    
     #region Unity Built_In
 
     private void Awake()
