@@ -35,7 +35,6 @@ public class RankingUI : MonoBehaviour
     {
         for (int i = 0; i < rankingScoreTexts.Length; i++)
         {
-            //rankingScoreTexts[i].text = $"{PlayerPrefs.GetInt(RankingManager.Inst.KeyString[i])}";
             rankingScoreTexts[i].text = $"{RankingManager.Inst.RankScores[i]}";
         }
     }

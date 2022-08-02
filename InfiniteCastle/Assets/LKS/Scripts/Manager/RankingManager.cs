@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RankingManager// : MonoBehaviour
+public class RankingManager
 {
     private static RankingManager instance;
 

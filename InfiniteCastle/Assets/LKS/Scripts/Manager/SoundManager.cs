@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,13 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Inst => instance;
 
     public AudioMixer audioMixer;
-    public AudioSource[] audioSources;
-    private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
+    public AudioSource bgmAudioSource;
+    public AudioSource sfxAudioSource;
+
+    [Header("음악 클립들")]
+    public AudioClip[] bgmClips;
+    public AudioClip[] sfxClips;
+    //private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
     private void Awake()
     {
@@ -20,5 +26,11 @@ public class SoundManager : MonoBehaviour
             Destroy(this.gameObject);
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        bgmAudioSource = transform.Find("BGM").GetComponent<AudioSource>();
+        sfxAudioSource = transform.Find("SFX").GetComponent<AudioSource>();
     }
 }

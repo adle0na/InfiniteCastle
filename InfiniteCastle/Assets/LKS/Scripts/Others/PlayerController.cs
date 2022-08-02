@@ -236,8 +236,7 @@ public class PlayerController : MonoBehaviour, IAttackable
             OnDie();
             return;
         }
-        
-        // 아니 리턴했는데 왜 숫자가 올라가냐고 도라이냐고~~~~~~~~
+
         gameManager.CurrentFloor++;
     }
 
@@ -257,11 +256,8 @@ public class PlayerController : MonoBehaviour, IAttackable
     private void SetBossAttack()
     {
         if (isAttackReady) return;
-
-        //bossAttackInput = new Queue<int>(gameManager.BossMonster.Pattern.Count);
+        
         fullInputCount = gameManager.BossMonster.Pattern.Count;
-        Debug.Log(
-            $"Boss Pattern : {string.Join(" ", gameManager.BossMonster.Pattern.ToArray())}\nCount : {fullInputCount}");
         inputRound = 0;
         isAttackReady = true;
     }
@@ -293,7 +289,6 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     private void AttackBoss(int count)
     {
-        Debug.Log("보스 공격!");
         IAttackable bossAttack = gameManager.BossMonster.GetComponent<IAttackable>();
         bossAttack.TakeDamage(count * Attack);
         isAttackReady = false;
