@@ -14,14 +14,19 @@ public class HomeSceneManager : MonoBehaviour
     public Button startButton;
     public Button rankingButton;
     public Button settingsButton;
-    public Button quitGameButton;
-    public Button endSettingButton;
 
     private void OnEnable()
     {
         startButton.onClick.AddListener(OnStart);
         rankingButton.onClick.AddListener(OnRanking);
         settingsButton.onClick.AddListener(OnSettingUI);
+    }
+    
+    private void OnDisable()
+    {
+        startButton.onClick.RemoveAllListeners();
+        rankingButton.onClick.RemoveAllListeners();
+        settingsButton.onClick.RemoveAllListeners();
     }
 
     private void OnStart()
@@ -44,17 +49,5 @@ public class HomeSceneManager : MonoBehaviour
     private void OnSettingUI()
     {
         settings.SetActive(true);
-        quitGameButton.onClick.AddListener(QuitGame);
-        endSettingButton.onClick.AddListener(EndSettings);
-    }
-
-    private void QuitGame()
-    {
-        Application.Quit();
-    }
-
-    private void EndSettings()
-    {
-        settings.SetActive(false);
     }
 }

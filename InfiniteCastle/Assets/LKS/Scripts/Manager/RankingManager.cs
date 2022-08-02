@@ -79,4 +79,15 @@ public class RankingManager// : MonoBehaviour
 
         PlayerPrefs.Save();
     }
+
+    /// <summary>
+    /// 테스트용 함수. 실제 적용하지 말 것.
+    /// </summary>
+    public void ResetRank()
+    {
+        for (int i = 0; i < rankScores.Length; i++)
+        {
+            PlayerPrefs.SetInt(keyString[i], 0);
+        }
+    }
 }

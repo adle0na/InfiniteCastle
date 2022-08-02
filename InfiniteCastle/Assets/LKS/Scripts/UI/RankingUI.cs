@@ -8,6 +8,7 @@ public class RankingUI : MonoBehaviour
 {
     private Text[] rankingScoreTexts;
     private Button toHome;
+    private Button reset;
     private HomeSceneManager homeSceneManager;
 
     private void OnEnable()
@@ -20,6 +21,11 @@ public class RankingUI : MonoBehaviour
         SetRank();
     }
 
+    private void OnDisable()
+    {
+        toHome.onClick.RemoveAllListeners();
+    }
+
     private void GoHome()
     {
         homeSceneManager.EndRanking();
@@ -29,7 +35,8 @@ public class RankingUI : MonoBehaviour
     {
         for (int i = 0; i < rankingScoreTexts.Length; i++)
         {
-            rankingScoreTexts[i].text = $"{PlayerPrefs.GetInt(RankingManager.Inst.KeyString[i])}";
+            //rankingScoreTexts[i].text = $"{PlayerPrefs.GetInt(RankingManager.Inst.KeyString[i])}";
+            rankingScoreTexts[i].text = $"{RankingManager.Inst.RankScores[i]}";
         }
     }
     
@@ -41,5 +48,11 @@ public class RankingUI : MonoBehaviour
             testText.text = $"{testScore}";
             testScore -= 136031;
         }
+    }
+
+    private void ResetTest()
+    {
+        RankingManager.Inst.ResetRank();
+        SetRank();
     }
 }
