@@ -32,6 +32,7 @@ public class HomeSceneManager : MonoBehaviour
     private void OnStart()
     {
         SceneManager.LoadScene(1);
+        //SoundManager.Inst.PlayBGM(BGMEnum.PlayScene);
     }
 
     private void OnRanking()

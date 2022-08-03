@@ -19,6 +19,9 @@ public class RankingUI : MonoBehaviour
         toHome.onClick.AddListener(GoHome);
 
         SetRank();
+
+        reset = transform.Find("Reset").GetComponent<Button>();
+        reset.onClick.AddListener(ResetTest);
     }
 
     private void OnDisable()

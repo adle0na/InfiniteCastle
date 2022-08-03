@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 3
   itemName: "\uD3ED\uD0C4"
-  itemImage: {fileID: 21300000, guid: b7ffb84c05e1306408ea8f140c7d5893, type: 3}
+  itemImage: {fileID: 21300000, guid: fdb8df96461f67d47932e91c71971474, type: 3}
   itemDescription: "\uD654\uBA74\uC5D0 \uC874\uC7AC\uD558\uB294 \uBAA8\uB4E0 \uBAAC\uC2A4\uD130\uB97C
     \uC81C\uAC70\uD55C\uB2E4."
   itemPrefab: {fileID: 4853238531867362142, guid: 22c5f1bc05788c44b9d40d39e9828357, type: 3}

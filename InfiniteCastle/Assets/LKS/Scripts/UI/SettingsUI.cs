@@ -56,7 +56,6 @@ public class SettingsUI : MonoBehaviour
 
     private void SetBGMSound(float newValue)
     {
-        //SoundManager.Inst.bgmAudioSource.volume = newValue;
         bgmVolum = newValue;
         SoundManager.Inst.audioMixer.SetFloat("BGM", Mathf.Log10(bgmVolum) * 20);
         PlayerPrefs.SetFloat(bgmVolumString, bgmVolum);
@@ -67,7 +66,6 @@ public class SettingsUI : MonoBehaviour
 
     private void SetSFXSound(float newValue)
     {
-        //SoundManager.Inst.sfxAudioSource.volume = newValue;
         sfxVolum = newValue;
         SoundManager.Inst.audioMixer.SetFloat("SFX", Mathf.Log10(sfxVolum) * 20);
         PlayerPrefs.SetFloat(sfxVolumString, sfxVolum);

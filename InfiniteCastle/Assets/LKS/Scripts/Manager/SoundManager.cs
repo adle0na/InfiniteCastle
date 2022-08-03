@@ -4,6 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+public enum BGMEnum
+{
+    HomeScene = 0,
+    PlayScene,
+}
+
+public enum SFXEnum
+{
+    Button = 0,
+    Jump,
+    Attack,
+    Bomb,
+    MonsterDie,
+    PlayerDie,
+}
+
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager instance;
@@ -16,8 +32,7 @@ public class SoundManager : MonoBehaviour
     [Header("음악 클립들")]
     public AudioClip[] bgmClips;
     public AudioClip[] sfxClips;
-    //private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -32,5 +47,19 @@ public class SoundManager : MonoBehaviour
     {
         bgmAudioSource = transform.Find("BGM").GetComponent<AudioSource>();
         sfxAudioSource = transform.Find("SFX").GetComponent<AudioSource>();
+    }
+
+    public void PlayBGM(BGMEnum clip)
+    {
+        bgmAudioSource.Stop();
+        bgmAudioSource.clip = bgmClips[(int) clip];
+        bgmAudioSource.Play();
+    }
+
+    public void PlaySFX(SFXEnum clip)
+    {
+        //sfxAudioSource.Stop();
+        sfxAudioSource.clip = sfxClips[(int) clip];
+        sfxAudioSource.Play();
     }
 }

@@ -88,6 +88,7 @@ public class RankingManager
         for (int i = 0; i < rankScores.Length; i++)
         {
             PlayerPrefs.SetInt(keyString[i], 0);
+            rankScores[i] = PlayerPrefs.GetInt(KeyString[i]);
         }
     }
 }
