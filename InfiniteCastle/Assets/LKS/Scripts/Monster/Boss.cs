@@ -16,11 +16,20 @@ public class Boss : MonoBehaviour, IAttackable
 
     private Queue<int> pattern;
     private GameManager gameManager;
+    private Animator animator;
+
+    protected readonly int hashOnDamage = Animator.StringToHash("onDamage");
+    protected readonly int hashOnAttack = Animator.StringToHash("onAttack");
+    protected readonly int hashIsAlive = Animator.StringToHash("isAlive");
 
     public bool IsAlive
     {
         get => isAlive;
-        set => isAlive = value;
+        set
+        { 
+            isAlive = value;
+            animator.SetBool(hashIsAlive, isAlive);
+        }
     }
 
     public bool IsPatternSet
@@ -51,7 +60,11 @@ public class Boss : MonoBehaviour, IAttackable
     public int Attack
     {
         get => attack;
-        set => attack = value;
+        set
+        {
+            attack = value;
+            animator.SetTrigger(hashOnAttack);
+        }
     }
 
     public HpDelegate onHpChange { get; set; }
@@ -61,6 +74,7 @@ public class Boss : MonoBehaviour, IAttackable
     private void Awake()
     {
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -79,6 +93,7 @@ public class Boss : MonoBehaviour, IAttackable
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        animator.SetTrigger(hashOnDamage);
     }
 
     public void OnDie()
@@ -95,7 +110,7 @@ public class Boss : MonoBehaviour, IAttackable
     {
         minPatternCount = 2;
         maxPatternCount = 5;
-        isAlive = true;
+        IsAlive = true;
     }
 
     private void SetPattern()

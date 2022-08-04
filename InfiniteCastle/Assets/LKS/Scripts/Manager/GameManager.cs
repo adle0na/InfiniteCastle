@@ -179,7 +179,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        bossMonster = BossPool.ObjPools[0].ElementAt(0).GetComponent<Boss>();
+        if (BossPool.ObjPools[0].Count > 0)
+            bossMonster = BossPool.ObjPools[0].ElementAt(0).GetComponent<Boss>();
+        else
+            bossMonster = GameObject.FindObjectOfType<Boss>();
+            
         bossMonster.OnRestart();
         
         killMonsterCount = 0;

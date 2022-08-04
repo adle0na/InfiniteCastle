@@ -29,8 +29,14 @@ public class PlayerController : MonoBehaviour, IAttackable
     private Killzone killZone;
     private Collider2D collider;
     private GameManager gameManager;
+    private Animator animator;
 
     private IEnumerator onMoveInput;
+
+    protected readonly int hashOnJump = Animator.StringToHash("onJump");
+    protected readonly int hashOnAttack = Animator.StringToHash("onAttack");
+    protected readonly int hashOnDamage = Animator.StringToHash("onDamage");
+    protected readonly int hashIsAlive = Animator.StringToHash("isAlive");
 
     #endregion
     
@@ -59,6 +65,8 @@ public class PlayerController : MonoBehaviour, IAttackable
                 OnDie();
                 gameManager.UIManage.SetGameOver(true);
             }
+
+            animator.SetBool(hashIsAlive, IsAlive);
         }
     }
     public int Attack
@@ -93,10 +101,12 @@ public class PlayerController : MonoBehaviour, IAttackable
         collider = GetComponent<Collider2D>();
         killZone = GameObject.FindObjectOfType<Killzone>();
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
     {
+        IsAlive = true;
         gameManager.CurrentFloor = 0;
         Attack = 1;
         maxHealth = 100;
@@ -209,6 +219,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         if (!CheckMonster())
         {
+            animator.SetTrigger(hashOnJump);
             killZone.MoveUp();
             CheckStair();
         }
@@ -232,6 +243,7 @@ public class PlayerController : MonoBehaviour, IAttackable
         RaycastHit2D rayhit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("KillZone"));
         if (rayhit.collider.CompareTag("KillZone"))
         {
+            animator.SetBool(hashIsAlive, isAlive);
             StopAllCoroutines();
             OnDie();
             return;
@@ -275,6 +287,7 @@ public class PlayerController : MonoBehaviour, IAttackable
         if (inputRound == fullInputCount)
         {
             AttackBoss(inputRound);
+            animator.SetTrigger(hashOnAttack);
         }
         else if (inputRound == 0)
         {
@@ -301,6 +314,7 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     public void TakeDamage(int damage)
     {
+        animator.SetTrigger(hashOnDamage);
         Health -= damage;
         // 피격 이펙트
     }

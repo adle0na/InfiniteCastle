@@ -11,6 +11,10 @@ public class Monster : MonoBehaviour, IAttackable
     private int attack = 2;
 
     private GameManager gameManager;
+    private Animator animator;
+
+    protected readonly int hashOnAttack = Animator.StringToHash("onAttack");
+    protected readonly int hashIsAlive = Animator.StringToHash("isAlive");
 
     public bool IsAlive
     {
@@ -20,6 +24,7 @@ public class Monster : MonoBehaviour, IAttackable
             isAlive = value;
             if (!isAlive)
                 OnDie();
+            animator.SetBool(hashIsAlive, IsAlive);
         }
     }
 
@@ -52,17 +57,20 @@ public class Monster : MonoBehaviour, IAttackable
     private void Awake()
     {
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
     {
         Health = maxHealth;
+        IsAlive = true;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Player"))
         {
+            animator.SetTrigger(hashOnAttack);
             IAttackable target = col.gameObject.GetComponent<IAttackable>();
             target.TakeDamage(attack);
         }
@@ -75,6 +83,7 @@ public class Monster : MonoBehaviour, IAttackable
 
     public void OnDie()
     {
+        animator.SetBool(hashIsAlive, false);
         MonsterGenerator generator = GetComponentInParent<MonsterGenerator>();
         generator.IsMonsterSpawned = false;
         gameManager.MonPool.ReturnObject(gameObject, generator.MonsterIndex);
