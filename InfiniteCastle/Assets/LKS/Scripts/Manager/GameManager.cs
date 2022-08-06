@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private MemoryPool monPool;
     private MemoryPool bossPool;
     private MemoryPool itemPool;
+    private BackgroundScroll backgroundScroll;
 
     [SerializeField] private int currentFloor;
     [SerializeField] private int setNewMonster = 50;
@@ -50,6 +51,8 @@ public class GameManager : MonoBehaviour
                 RestoreHealth();
             if ((currentFloor % setNewMonster) == 0)
                 SetIndex();
+            if ((currentFloor % 26) == 0 && currentFloor != 0)
+                backgroundScroll.Scroll();
             uiManager.RefreshFloor();
         }
     }
@@ -83,6 +86,7 @@ public class GameManager : MonoBehaviour
         monPool = GameObject.Find("MonsterMemoryPool").GetComponent<MemoryPool>();
         bossPool = GameObject.Find("BossMemoryPool").GetComponent<MemoryPool>();
         itemPool = GameObject.Find("ItemMemoryPool").GetComponent<MemoryPool>();
+        backgroundScroll = GameObject.FindObjectOfType<BackgroundScroll>();
     }
     
     private void Start()

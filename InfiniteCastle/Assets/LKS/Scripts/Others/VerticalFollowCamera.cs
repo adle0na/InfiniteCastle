@@ -16,6 +16,8 @@ public class VerticalFollowCamera : MonoBehaviour
     private void Update()
     {
         if (target != null)
-            transform.position = new Vector3(0, Mathf.Clamp(target.position.y, minY, maxY), -10);
+            //transform.position = new Vector3(0, Mathf.Clamp(target.position.y, minY, maxY), -10);
+            transform.position = Vector3.Lerp(transform.position,
+                new Vector3(0, Mathf.Clamp(target.position.y, minY, maxY), -10), 0.1f);
     }
 }
