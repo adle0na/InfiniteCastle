@@ -15,6 +15,11 @@ public class HomeSceneManager : MonoBehaviour
     public Button rankingButton;
     public Button settingsButton;
 
+    private void Start()
+    {
+        SoundManager.Inst.PlayBGM(BGMEnum.HomeScene);
+    }
+
     private void OnEnable()
     {
         startButton.onClick.AddListener(OnStart);
@@ -32,23 +37,26 @@ public class HomeSceneManager : MonoBehaviour
     private void OnStart()
     {
         SceneManager.LoadScene(1);
-        //SoundManager.Inst.PlayBGM(BGMEnum.PlayScene);
+        SoundManager.Inst.PlayBGM(BGMEnum.PlayScene);
     }
 
     private void OnRanking()
     {
+        SoundManager.Inst.PlaySFX(SFXEnum.Button);
         main.SetActive(false);
         ranking.SetActive(true);
     }
 
     public void EndRanking()
     {
+        SoundManager.Inst.PlaySFX(SFXEnum.Button);
         ranking.SetActive(false);
         main.SetActive(true);
     }
     
     private void OnSettingUI()
     {
+        SoundManager.Inst.PlaySFX(SFXEnum.Button);
         settings.SetActive(true);
     }
 }

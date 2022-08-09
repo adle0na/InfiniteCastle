@@ -88,6 +88,7 @@ public class Monster : MonoBehaviour, IAttackable
         generator.IsMonsterSpawned = false;
         gameManager.MonPool.ReturnObject(gameObject, generator.MonsterIndex);
         gameManager.KillMonsterCount++;
+        SoundManager.Inst.PlaySFX(SFXEnum.MonsterDie);
     }
 
     public void OnRestart()

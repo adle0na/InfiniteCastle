@@ -104,6 +104,7 @@ public class Boss : MonoBehaviour, IAttackable
         gameManager.UIManage.SetBossUI(IsAlive);
         gameManager.BossPool.ReturnObject(gameObject);
         gameManager.KillBossCount++;
+        SoundManager.Inst.PlaySFX(SFXEnum.MonsterDie);
     }
 
     public void OnRestart()

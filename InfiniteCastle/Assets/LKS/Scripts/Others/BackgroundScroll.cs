@@ -23,7 +23,6 @@ public class BackgroundScroll : MonoBehaviour
 
     public void Scroll()
     {
-        Debug.Log("Scroll");
         float scrollGap = bgSize * count;
         backgrounds[index].transform.position =
             new Vector3(0, backgrounds[index].transform.position.y + scrollGap, 0);

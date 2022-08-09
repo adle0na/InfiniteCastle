@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour, IAttackable
         {
             IAttackable target = col.gameObject.GetComponent<IAttackable>();
             target.TakeDamage(Attack);
+            SoundManager.Inst.PlaySFX(SFXEnum.Attack);
             BounceOff();
         }
     }
@@ -156,6 +157,7 @@ public class PlayerController : MonoBehaviour, IAttackable
         if (BombCount == 0) return;
         if (IsAlive && callbackContext.started)
         {
+            SoundManager.Inst.PlaySFX(SFXEnum.Bomb);
             Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
             foreach (var monster in monsters)
             {
@@ -183,6 +185,7 @@ public class PlayerController : MonoBehaviour, IAttackable
         if (BombCount == 0) return;
         if (IsAlive)
         {
+            SoundManager.Inst.PlaySFX(SFXEnum.Bomb);
             Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
             foreach (var monster in monsters)
             {
@@ -200,6 +203,8 @@ public class PlayerController : MonoBehaviour, IAttackable
     private IEnumerator OnJump(Vector2 inputDir)
     {
         isGrounded = false;
+        SoundManager.Inst.PlaySFX(SFXEnum.Jump);
+        
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
         oldPos = transform.position;
         Vector2 newPos = new Vector2(transform.position.x + inputDir.x, transform.position.y);
@@ -304,6 +309,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         IAttackable bossAttack = gameManager.BossMonster.GetComponent<IAttackable>();
         bossAttack.TakeDamage(count * Attack);
+        SoundManager.Inst.PlaySFX(SFXEnum.Attack);
         isAttackReady = false;
         SetBossAttack();
     }
@@ -321,6 +327,7 @@ public class PlayerController : MonoBehaviour, IAttackable
 
     public void OnDie()
     {
+        SoundManager.Inst.PlaySFX(SFXEnum.PlayerDie);
         Time.timeScale = 0;
         StopAllCoroutines();
         collider.isTrigger = true;

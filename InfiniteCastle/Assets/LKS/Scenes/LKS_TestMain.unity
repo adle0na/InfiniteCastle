@@ -1025,8 +1025,16 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 6e3be420c559f714e893f743f608756d, type: 2}
   bgmAudioSource: {fileID: 0}
   sfxAudioSource: {fileID: 0}
-  bgmClips: []
-  sfxClips: []
+  bgmClips:
+  - {fileID: 8300000, guid: 6746190191c96484e9e4d9378427e6c4, type: 3}
+  - {fileID: 8300000, guid: 83751d1175462e249b036d5bca64a497, type: 3}
+  sfxClips:
+  - {fileID: 8300000, guid: a4ca9c593e496a44b8103e57a56589df, type: 3}
+  - {fileID: 8300000, guid: a85135590c3e42249819c30013626a1d, type: 3}
+  - {fileID: 8300000, guid: ebb2fca915397a1429e45b90cc5b8059, type: 3}
+  - {fileID: 8300000, guid: de9a5932fb0b9aa40ac3f16a2fad2ee9, type: 3}
+  - {fileID: 8300000, guid: 8d2d2f917d28c7f45998124783fe5b68, type: 3}
+  - {fileID: 8300000, guid: f8bff55a2a827ef4492e8ea44bbc3512, type: 3}
 --- !u!4 &549246675
 Transform:
   m_ObjectHideFlags: 0

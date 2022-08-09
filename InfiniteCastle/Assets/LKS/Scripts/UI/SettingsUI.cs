@@ -82,6 +82,7 @@ public class SettingsUI : MonoBehaviour
     private void EndSettings()
     {
         PlayerPrefs.Save();
+        SoundManager.Inst.PlaySFX(SFXEnum.Button);
         GameObject obj = GameObject.Find("SettingsUI");
         obj.SetActive(false);
     }
