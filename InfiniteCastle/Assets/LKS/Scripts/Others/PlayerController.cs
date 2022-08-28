@@ -139,34 +139,34 @@ public class PlayerController : MonoBehaviour, IAttackable
     
     #region Move And Attack
 
-    public void OnJumpInput(InputAction.CallbackContext callbackContext)
-    {
-        if (!isGrounded) return;
-        if (IsAlive && callbackContext.performed)
-        {
-            StopAllCoroutines();
-            Vector2 inputDir = callbackContext.ReadValue<Vector2>();
-            
-            onMoveInput = CheckBoss() ? ResolvePattern(inputDir) : OnJump(inputDir);
-            StartCoroutine(onMoveInput);
-        }
-    }
-
-    public void OnAttack(InputAction.CallbackContext callbackContext)
-    {
-        if (BombCount == 0) return;
-        if (IsAlive && callbackContext.started)
-        {
-            SoundManager.Inst.PlaySFX(SFXEnum.Bomb);
-            Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
-            foreach (var monster in monsters)
-            {
-                monster.TakeDamage(bombAttack);
-            }
-
-            BombCount--;
-        }
-    }
+    // public void OnJumpInput(InputAction.CallbackContext callbackContext)
+    // {
+    //     if (!isGrounded) return;
+    //     if (IsAlive && callbackContext.performed)
+    //     {
+    //         StopAllCoroutines();
+    //         Vector2 inputDir = callbackContext.ReadValue<Vector2>();
+    //         
+    //         onMoveInput = CheckBoss() ? ResolvePattern(inputDir) : OnJump(inputDir);
+    //         StartCoroutine(onMoveInput);
+    //     }
+    // }
+    //
+    // public void OnAttack(InputAction.CallbackContext callbackContext)
+    // {
+    //     if (BombCount == 0) return;
+    //     if (IsAlive && callbackContext.started)
+    //     {
+    //         SoundManager.Inst.PlaySFX(SFXEnum.Bomb);
+    //         Monster[] monsters = GameObject.FindObjectsOfType<Monster>();
+    //         foreach (var monster in monsters)
+    //         {
+    //             monster.TakeDamage(bombAttack);
+    //         }
+    //
+    //         BombCount--;
+    //     }
+    // }
 
     public void OnJumpInput(Vector2 dir)
     {

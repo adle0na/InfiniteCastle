@@ -18,6 +18,7 @@ public class HomeSceneManager : MonoBehaviour
     private void Start()
     {
         SoundManager.Inst.PlayBGM(BGMEnum.HomeScene);
+        settings.SetActive(false);
     }
 
     private void OnEnable()

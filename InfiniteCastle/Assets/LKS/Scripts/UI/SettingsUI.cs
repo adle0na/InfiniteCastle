@@ -16,19 +16,18 @@ public class SettingsUI : MonoBehaviour
     private string bgmVolumString = "BGMVolum";
     private string sfxVolumString = "SFXVolum";
 
-    private void Start()
-    {
-        if (PlayerPrefs.HasKey(bgmVolumString) && PlayerPrefs.HasKey(sfxVolumString))
-            Initailize();
-    }
-
-    private void OnEnable()
+    private void Awake()
     {
         bgmSlider = transform.Find("BGM").GetComponent<Slider>();
         sfxSlider = transform.Find("SFX").GetComponent<Slider>();
         quitSettings = transform.Find("QuitSettings").GetComponent<Button>();
         quitGame = transform.Find("QuitGame").GetComponent<Button>();
+        
+        Initailize();
+    }
 
+    private void OnEnable()
+    {
         bgmSlider.value = bgmVolum;
         sfxSlider.value = sfxVolum;
         quitSettings.onClick.AddListener(EndSettings);
@@ -49,7 +48,9 @@ public class SettingsUI : MonoBehaviour
     {
         bgmVolum = PlayerPrefs.GetFloat(bgmVolumString);
         sfxVolum = PlayerPrefs.GetFloat(sfxVolumString);
-        
+        bgmSlider.value = PlayerPrefs.GetFloat(bgmVolumString);
+        sfxSlider.value = PlayerPrefs.GetFloat(sfxVolumString);
+
         SetBGMSound(bgmVolum);
         SetSFXSound(sfxVolum);
     }
