@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     public Button bombButton;
     public GameObject gameOver;
     public GameObject bossUI;
+    public GameObject settingsUI;
 
     private string left = $"←";
     private string right = $"→";
@@ -133,6 +134,11 @@ public class UIManager : MonoBehaviour
     public void SetGameOver(bool toHow)
     {
         gameOver.SetActive(toHow);
+    }
+
+    public void OnSettingsButton()
+    {
+        settingsUI.SetActive(true);
     }
 
     #endregion
