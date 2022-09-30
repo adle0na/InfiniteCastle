@@ -58,14 +58,12 @@ public class ScoreUI : MonoBehaviour
         int total = floor + monster + boss;
         scoreTexts[3].text = $"{total}";
 
-        if (total > RankingManager.Inst.RankScores[RankingManager.Inst.RankScores.Length - 1])
-            RankingManager.Inst.NewRank(total);
+        RankingManager.Inst.NewRank(total);
     }
 
     private void OnRetryButton()
     {
         SceneManager.LoadScene(1);
-        //SoundManager.Inst.PlayBGM(BGMEnum.PlayScene);
         gameManager.OnRestart();
     }
 
@@ -73,6 +71,5 @@ public class ScoreUI : MonoBehaviour
     {
         gameManager.OnRestart();
         SceneManager.LoadScene(0);
-        //SoundManager.Inst.PlayBGM(BGMEnum.HomeScene);
     }
 }

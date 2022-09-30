@@ -54,6 +54,8 @@ public class RankingManager
     /// <param name="newScore"> 새 점수가 5위보다 높으면 새 점수를 매개변수로 호출 </param>
     public void NewRank(int newScore)
     {
+        if (newScore < rankScores[rankScores.Length - 1]) return;
+        
         rankScores[rankScores.Length - 1] = newScore;
 
         for (int i = rankScores.Length - 1; i > 0; i--)

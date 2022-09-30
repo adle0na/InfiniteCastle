@@ -22,7 +22,6 @@ public class BossGenerator : MonoBehaviour
 
     public void SetBoss()
     {
-        //GameObject obj = Instantiate(bossPrefab, transform.position, Quaternion.identity);
         GameObject obj = gameManager.BossPool.GetObject();
         obj.transform.position = transform.position;
         obj.transform.parent = transform;
